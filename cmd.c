@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/08/22 15:26:26 by docho            ###   ########.fr       */
+/*   Updated: 2022/08/22 17:56:26 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	**connect_io(char **cmd, int *fd)
 	argv[++j] = NULL;
 }
 
-int	exec_cmd(char ***arr, char **envp)
+void	exec_cmd(char ***arr, char **envp, int *n)
 {
 	int		i;
 	int		len;
@@ -75,5 +75,6 @@ int	exec_cmd(char ***arr, char **envp)
 		free(argv);
 	}
 	e_close(fd[0]);
-	return (e_wait(pids, len));
+	*n = e_wait(pids, len);
+	free(pids);
 }

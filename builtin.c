@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/08/22 17:45:08 by docho            ###   ########.fr       */
+/*   Updated: 2022/08/22 17:52:11 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@ bool	isbuiltin(char **argv, char **envp)
 void    echo(char **argv, bool f)
 {
 	if (f)
+	{
 		printf("%s", s);
+	}
 	else
+	{
 		printf("%s\n", s);
+	}
 }
 
 void    cd()
