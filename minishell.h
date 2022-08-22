@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/08/18 20:52:26 by docho            ###   ########.fr       */
+/*   Updated: 2022/08/22 15:04:28 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <sys/wait.h>
+# include <errno.h>
+# include <dirent.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-typedef struct  s_info
-{
-	int		ofd;
-	char	**envp;
-}				t_info;
+// typedef struct  s_list
+// {
+// 	char			*content;
+// 	struct s_list	*next;
+// }				t_list;
 
 #endif

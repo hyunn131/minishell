@@ -6,82 +6,74 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/08/18 20:52:23 by docho            ###   ########.fr       */
+/*   Updated: 2022/08/22 15:26:26 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cmd_err(char *cmd, int )
-{
-}
-
-void	connect_io(char **cmd, int *fd)
+static int	cmdlen(char **cmd)
 {
 	int	i;
-	int	n;
 
+	i = 0;
+	while (cmd[i])
+		i++;
+	return (i);
+}
+
+static char	**connect_io(char **cmd, int *fd)
+{
+	int		i;
+	int		j;
+	char	**argv;
+
+	argv = (char **)malloc(sizeof(char *) * cmdlen(cmd) + 1);
+	if (!argv)
+		terminate();
 	i = -1;
+	j = -1;
 	while (cmd[++i])
 	{
 		if (ft_strcmp(cmd[i], "<"))
-			input(cmd[i + 1], fd);
+			input(cmd[++i], fd);
 		else if (ft_strcmp(cmd[i], "<<"))
-			here_doc(cmd[i + 1], fd);
+			here_doc(cmd[++i], fd);
 		else if (ft_strcmp(cmd[i], ">"))
-			output(cmd[i + 1], fd);
+			output(cmd[++i], fd);
 		else if (ft_strcmp(cmd[i], ">>"))
-			append(cmd[i + 1], fd);
+			append(cmd[++i], fd);
+		else
+			argv[++j] = cmd[i];
 	}
+	argv[++j] = NULL;
 }
 
-void    process(char **cmd, char **envp, int *iofd)
-{
-	int		fd[2];
-	pid_t	pid;
-
-	e_pipe(fd);
-	pid = e_fork();
-	if (pid == 0)
-	{
-		if (iofd[1] != -1)
-		{
-			e_close(fd[1]);
-			fd[1] = iofd[1];
-		}
-		e_close(fd[0]);
-		dup2(iofd[0], 0);
-		dup2(fd[1], 1);
-		if (execve(argv[0], argv, envp) == -1)
-			cmd_err(argv[0]);
-	}
-	else
-	{
-		e_close(fd[1]);
-		e_close(iofd[0]);
-		if (iofd[1] != -1)
-			e_close(iofd[1]);
-		iofd[0] = fd[0];
-	}
-}
-
-void	exec_cmd(char ***arr, char **envp)
+int	exec_cmd(char ***arr, char **envp)
 {
 	int		i;
 	int		len;
 	int		fd[2];
 	pid_t	*pids;
+	char	**argv;
 
 	len = 0;
 	while (arr[len])
 		len++;
-	pids = (pid_t *)malloc()
-	fd[0] = -1;
-	fd[1] = -1;
+	pids = (pid_t *)malloc(len * sizeof(pid_t));
+	if (!pids)
+		terminate();
+	fd[0] = 0;
 	i = -1;
 	while (arr[++i])
 	{
-		process(arr[i], envp, fd);
+		fd[1] = -1;
+		if (i == len - 1)
+			fd[1] = 1;
+		argv = connect_io(arr[i], fd);
+		process(argv, envp, fd, &pids[i]);
+		free(argv);
 	}
 	e_close(fd[0]);
+	return (e_wait(pids, len));
 }
