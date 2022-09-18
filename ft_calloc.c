@@ -1,48 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 18:07:19 by docho             #+#    #+#             */
-/*   Updated: 2022/09/19 06:52:28 by docho            ###   ########.fr       */
+/*   Created: 2021/11/23 15:31:35 by docho             #+#    #+#             */
+/*   Updated: 2022/09/18 17:41:42 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	terminate(char *str)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	if (str)
-		printf("%s", str);
-	else if (errno != 0)
-		strerror(errno);
-	exit(1);
-}
+	unsigned char	*mem;
+	size_t			i;
 
-void	e_close(int fd)
-{
-	if (close(fd) < 0)
-		terminate(0);
-}
-
-void	e_pipe(int *fd)
-{
-	if (pipe(fd) == -1)
+	mem = b;
+	i = 0;
+	while (i < len)
 	{
-		terminate(0);
+		mem[i] = (unsigned char)c;
+		i++;
 	}
+	return (mem);
 }
 
-pid_t	e_fork()
+void	ft_bzero(void *s, size_t n)
 {
-	pid_t	pid;
+	ft_memset(s, 0, n);
+}
 
-	pid = fork();
-	if (pid == -1)
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*m;
+
+	m = malloc(size * count);
+	if (m)
 	{
-		terminate(0);
+		ft_bzero(m, size * count);
 	}
-	return (pid);
+	return (m);
 }

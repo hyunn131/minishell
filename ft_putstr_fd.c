@@ -1,48 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 18:07:19 by docho             #+#    #+#             */
-/*   Updated: 2022/09/19 06:52:28 by docho            ###   ########.fr       */
+/*   Created: 2021/11/24 14:49:56 by docho             #+#    #+#             */
+/*   Updated: 2022/09/19 01:59:47 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	terminate(char *str)
+void	ft_putstr_fd(char *s, int fd)
 {
-	if (str)
-		printf("%s", str);
-	else if (errno != 0)
-		strerror(errno);
-	exit(1);
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
 }
 
-void	e_close(int fd)
+char	*ft_strchr(const char *s, int c)
 {
-	if (close(fd) < 0)
-		terminate(0);
-}
-
-void	e_pipe(int *fd)
-{
-	if (pipe(fd) == -1)
+	while (*s)
 	{
-		terminate(0);
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-}
-
-pid_t	e_fork()
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		terminate(0);
-	}
-	return (pid);
+	if (*s == (char)c)
+		return ((char *)s);
+	return (0);
 }
