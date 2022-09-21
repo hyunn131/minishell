@@ -6,36 +6,11 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 15:06:34 by docho             #+#    #+#             */
-/*   Updated: 2022/09/19 06:18:53 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/21 14:32:59 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	char	*sub;
-	size_t	slen;
-
-	if (!s)
-		return (0);
-	i = 0;
-	slen = ft_strlen(s);
-	if (slen < len)
-		len = slen;
-	sub = (char *)malloc(sizeof(char) * (len + 1));
-	if (!sub)
-		return (0);
-	while (i < len && start + i < slen)
-	{
-		sub[i] = s[start + i];
-		i++;
-	}
-	sub[i] = '\0';
-	return (sub);
-}
-
 
 static size_t	counting(char const *s, char c)
 {

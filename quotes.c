@@ -6,13 +6,13 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 05:26:55 by docho             #+#    #+#             */
-/*   Updated: 2022/09/19 06:51:19 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/21 16:46:14 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	counting(char *buffer, int *cnt)
+void	counting(char *buffer, int *cnt)
 {
 	int 	i;
 	int 	flag;
@@ -20,6 +20,7 @@ static void	counting(char *buffer, int *cnt)
 	
 	i = -1;
 	flag = 0;
+	*cnt = 0;
 	while (buffer[++i])
 	{
 		if (buffer[i] == ' ')
@@ -33,76 +34,63 @@ static void	counting(char *buffer, int *cnt)
 			}
 			if (buffer[i] == '\"' || buffer[i] == '\'')
 			{
-				c = buffer[i++];
-				while(buffer[i] != c)
-					i++;
+				c = buffer[i];
+				while(buffer[++i] != c)
+					;
 			}
 		}
 	}
 }
 
-static void	fills(char *buffer)
+void	fills(char *buffer, t_info *info)
 {
 	int 	i;
 	int 	flag;
+	int		start;
+	int		num;
 	char	c;
 	
 	i = -1;
 	flag = 0;
+	start = 0;
+	num = 0;
 	while (buffer[++i])
 	{
-		if (buffer[i] == ' ')
+		while (buffer[i] == ' ')
+			i++;
+		start = i;
+		while (buffer[i] != ' ' && buffer[i])
 		{
-			if (len != 0)
-			len = 0;
-		}
-		else
-		{
-			len++;
 			if (buffer[i] == '\"' || buffer[i] == '\'')
 			{
-				c = buffer[i++];
-				while(buffer[i] != c)
-					i++;
+				c = buffer[i];
+				while(buffer[++i] != c)
+					;
 			}
+			i++;
 		}
+		if (start == i)
+			break ;
+		info->argv[num++] = ft_substr2(buffer, start, i - start);
 	}
 }	
 
-void	splits(char *buffer)
+void	splits(char *buffer, t_info *info)
 {
-	char	**argv;
 	int 	cnt;
-	int		i;
 
-	cnt = 0;
+	if (info || buffer) 
+		;
+	cnt = 0;   
 	counting(buffer, &cnt);
-	argv = ft_calloc(cnt + 1, sizeof(char *));
-	if (!argv)
+	info->argv = ft_calloc(cnt + 1, sizeof(char *));
+	if (!info->argv)
 		terminate(0);
-	i = -1;
-	while (++i < cnt)
+	fills(buffer, info);
+	printf("argv-------------\n");
+	for (int i = 0; info->argv[i]; ++i)
 	{
-		argv[i] = ft_strdup();
+		printf("argv[%d]: %s\n", i, info->argv[i]);
 	}
-	printf("cnt: %d\n", cnt);
-}
-
-void	quotes(char *buffer)
-{
-	int	i;
-	int	flag;
-
-	i = -1;
-	flag = 0;
-	ft_strlen(buffer) - $(len) + ft_strlen(getenv());
-	while (buffer[++i])
-	{
-		if (buffer[i] != '\'')
-			flag ^= 1;
-		if (buffer[i] == '$' && !flag)
-		{
-
-		}
-	}
+	printf("\n");
 }

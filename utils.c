@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:49:14 by docho             #+#    #+#             */
-/*   Updated: 2022/09/19 05:26:49 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/20 19:05:08 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-static void	*ft_memmove(void *dst, const void *src, size_t len)
+ void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	unsigned char	*s;
 	unsigned char	*d;

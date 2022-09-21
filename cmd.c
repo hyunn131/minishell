@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/19 06:50:50 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/21 16:41:05 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ char	*make_filename(char **str)
 }
 
 
-char	**make_exec(char *str, t_info *info)
+void	make_exec(char *str, t_info *info)
 {
 	int		i;
 	int		flag;
 	char	*buffer;
-	char	**argv;
 
 	buffer = ft_calloc(info->len + 1, sizeof(char));
 	if (!buffer)
@@ -68,12 +67,10 @@ char	**make_exec(char *str, t_info *info)
 			buffer[i++] = *str++;
 		}
 	}
-
-	printf("buffer---\n%s\n", buffer);
-	splits(buffer);
-	argv = ft_split(buffer, ' ');
+	dollar(&buffer);
+	splits(buffer, info);
 	free(buffer);
-	return argv;
+
 }
 
 void	iofd(char *str, t_info *info)
@@ -106,7 +103,7 @@ void    exec_cmd(char *str, char **envp, int *n)
 	while (*str)
 	{
 		iofd(str, &info);
-		info.argv = make_exec(str, &info);
+		make_exec(str, &info);
 		if (!info.argv)
 			terminate(0);
 		if (!*(info.argv))
@@ -122,7 +119,7 @@ void    exec_cmd(char *str, char **envp, int *n)
 
 int main(int argc, char **argv, char **envp){
 	int n;
-	char *s = "cat < aaa ca\"ege cis\"o \'>a | fji\' fjd >> aad | cat \"dget    \" > aef";
+	char *s = "cat < aaa $PATH\"dd$PATHis\"o \' $PATHfji\' >> aad | cat \"dget    \" > aef";
 	if (argc || argv)
 		;
 	exec_cmd(s, envp, &n);
