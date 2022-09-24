@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/21 15:37:51 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/24 18:56:30 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <dirent.h>
 # include <stdlib.h>
+# include "./libft/libft.h"
 
 typedef struct s_info{
 	char	**argv;
@@ -52,7 +53,7 @@ void    input(char *filename, int *fd);
 void	output(char *filename, int *fd);
 void	append(char *filename, int *fd);
 void	here_doc(char *limiter, int *fd);
-bool	isbuiltin(char **argv, char **envp);
+bool	isbuiltin(char **argv, char ***envp);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *s, int c);
 void	splits(char *buffer, t_info *info);
@@ -62,4 +63,8 @@ char	*ft_substr2(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_memset(void *b, int c, size_t len);
 void    dollar(char **pbuffer);
+
+int	ft_count_envp(char **envp);
+
+
 #endif

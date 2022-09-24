@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:19:34 by docho             #+#    #+#             */
-/*   Updated: 2022/08/19 17:36:25 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/24 17:18:47 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env()
-{
+// void	env()
+// {
 
-}
+// }
 
-void	f_exit()
-{
+// void	f_exit()
+// {
 	
-}
+// }

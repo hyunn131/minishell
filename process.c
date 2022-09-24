@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/09/18 23:49:30 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/24 19:08:11 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ static void	cmdpath(char **argv0)
 	free2d(ss);
 }
 
-static void	in_child_do_cmd(char **argv, char **envp)
+static void	in_child_do_cmd(char **argv, char ***envp)
 {
 	if (!isbuiltin(argv, envp))
 	{
 		cmdpath(&argv[0]);
-		if (execve(argv[0], argv, envp) == -1)
+		if (execve(argv[0], argv, *envp) == -1)
 			;//cmd_err(argv[0]);//에러처리
 	}
 }
@@ -79,7 +79,7 @@ void    process(t_info *info)
 			e_close(info->fd[0]);//pipe 안열때? pipe 없을땐?
 		dup2(info->inputfd, 0);
 		dup2(info->fd[1], 1);
-		in_child_do_cmd(info->argv, info->envp);
+		in_child_do_cmd(info->argv, &info->envp);
 	}
 	else
 	{

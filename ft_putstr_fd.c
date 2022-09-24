@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 14:49:56 by docho             #+#    #+#             */
-/*   Updated: 2022/09/21 15:40:50 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/24 16:26:18 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_substr2(char const *s, unsigned int start, size_t len)
 	}
 	return (sub);
 }
-
+/*립에프티에 있는 함수들 일단 주석처리해두었습니다.
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
@@ -81,4 +81,4 @@ char	*ft_strchr(const char *s, int c)
 	if (*s == (char)c)
 		return ((char *)s);
 	return (0);
-}
+}*/

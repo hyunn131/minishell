@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/21 16:42:37 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/24 19:03:29 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*build_path(char **argv)
 	return (result);
 }
 
-void	cd(char **argv, char ***envp)
+void	cd(char **argv)
 {
 	char	*path;
 
@@ -129,17 +129,18 @@ char	*working_directory(void)
 	{
 		buf = (char *)malloc(n * 100 * sizeof(char));
 		if (buf == NULL)
-			terminate();
+			// terminate();
 		if (getcwd(buf, n++ * 100) == NULL)
 		{
 			free(buf);
 			if (errno == ERANGE)
 				continue ;
-			else
-				terminate();
+			// else
+			// 	terminate();
 		}
 		break ;
 	}
+	return (buf);
 }
 
 void    pwd(void)
@@ -168,7 +169,7 @@ void	print_unset_invalid(char *varname)
 {
 	ft_putstr_fd("bash: unset: `", 2);
 	ft_putstr_fd(varname, 2);
-	ft_putstr_fd("': not a valid identifier\n");
+	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
 void	matrix_free(char **matrix, int index)
@@ -193,7 +194,7 @@ char	**remove_one_var(char **envp, int index)
 	count = ft_count_envp(envp);
 	new = (char **)malloc(sizeof(char *) * count);
 	if (!new)
-		return (envp);
+		return (envp); 
 	while (++i < count)
 	{
 		if (i == index)
@@ -220,15 +221,15 @@ char	**unset_var(char *varname, char **envp)
 	len = ft_strlen(varname);
 	while (envp[++i])
 	{
-		if (ft_strlen(envp[i]) <= len)
+		if ((int)ft_strlen(envp[i]) <= len)
 			continue ;
-		if (!ft_strncmp(varname, envp[i], len) && envp[len] == '=')
+		if (!ft_strncmp(varname, envp[i], len) && envp[i][len] == '=')
 			break ;
 	}
 	if (!envp[i])
 		return (envp);
-	else
-		return (remove_one_var(envp, index));
+	new_envp = remove_one_var(envp, i);
+	return (new_envp);
 }
 
 void    unset(char **argv, char ***envp)
@@ -283,7 +284,7 @@ void	free_argv(char **argv)
 	free(argv);
 }
 
-void	exit(char **argv)
+void	f_exit(char **argv)
 {
 	int	i;
 
@@ -388,6 +389,7 @@ int	ft_strlen_key(char *key_and_val)
 {
 	int	i;
 
+	i = 0;
 	while (key_and_val[i] && (key_and_val[i] != '='))
 		i++;
 	return (i);
@@ -427,7 +429,7 @@ void	print_export_invalid(char *varname)
 {
 	ft_putstr_fd("bash: export: `", 2);
 	ft_putstr_fd(varname, 2);
-	ft_putstr_fd("': not a valid identifier\n");
+	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
 int	check_export_valid(char *argv)
@@ -466,7 +468,7 @@ bool	isbuiltin(char **argv, char ***envp)
 	if (ft_strcmp(argv[0], "echo"))
 		echo(argv);
 	else if (ft_strcmp(argv[0], "cd"))
-		cd(argv, envp);
+		cd(argv);
 	else if (ft_strcmp(argv[0], "pwd"))
 		pwd();
 	else if (ft_strcmp(argv[0], "export"))
@@ -476,7 +478,7 @@ bool	isbuiltin(char **argv, char ***envp)
 	else if (ft_strcmp(argv[0], "env"))
 		env(argv, *envp);
 	else if (ft_strcmp(argv[0], "exit"))
-		exit(argv);
+		f_exit(argv);
 	else
 		return (false);
 	return (true);
