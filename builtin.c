@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/24 19:03:29 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/24 23:45:35 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	print_echo_char(char *argv)
 {
 	while (*argv)
 	{
+		// if (*argv == '\\')
+		// {
+		// 	write(1, argv, 2);
+		// 	argv++;
+		// 	continue ;
+		// }
 		if (*argv == '$')
 		{
 			if (*(argv + 1) == '?')

@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/24 19:08:37 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/24 22:51:24 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	make_exec(char *str, t_info *info)
 	dollar(&buffer);
 	splits(buffer, info);
 	free(buffer);
-
 }
 
 void	iofd(char *str, t_info *info)
@@ -110,7 +109,7 @@ void    exec_cmd(char *str, char **envp, int *n)
 			terminate(0);//syntax error near unexpected token '*s'
 		process(&info);
 		if (!str[info.len])
-			break;
+			break ;
 		free2d(info.argv);
 		str = &str[++info.len];
 	}
@@ -119,8 +118,14 @@ void    exec_cmd(char *str, char **envp, int *n)
 
 int main(int argc, char **argv, char **envp){
 	int n;
-	char *s = "cat < aaa $PATH\"dd$PATHis\"o \' $PATHfji\' >> aad | cat \"dget    \" > aef";
+	char *s;
+	
 	if (argc || argv)
 		;
-	exec_cmd(s, envp, &n);
+	while (1)
+	{
+		s = readline(">");
+		exec_cmd(s, envp, &n);
+	}
+	return (0);
 }
