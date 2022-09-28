@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:49:14 by docho             #+#    #+#             */
-/*   Updated: 2022/09/20 19:05:08 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/28 21:06:28 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,59 +22,6 @@ void	free2d(char **ss)
 	while (ss[++i])
 		free(ss[i]);
 	free(ss);
-}
-
-bool	ft_strcmp(char *s1, char *s2)
-{
-	int	i;
-
-	i = -1;
-	while(s1[++i])
-	{
-		if(s1[i] != s2[i])
-			break ;
-	}
-	if (s1[i] == '\0' && s2[i] == '\0')
-		return (true);
-	return (false);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
- void	*ft_memmove(void *dst, const void *src, size_t len)
-{
-	unsigned char	*s;
-	unsigned char	*d;
-	size_t			i;
-
-	s = (unsigned char *)src;
-	d = dst;
-	i = 0;
-	if (d < s)
-	{
-		while (i < len)
-		{
-			d[i] = s[i];
-			i++;
-		}
-	}
-	else if (s < d)
-	{
-		while (i < len)
-		{
-			d[len - i - 1] = s[len - i - 1];
-			i++;
-		}
-	}
-	return (dst);
 }
 
 char	*joinpath(char *s1, char *s2)

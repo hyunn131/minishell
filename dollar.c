@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:38:48 by docho             #+#    #+#             */
-/*   Updated: 2022/09/24 19:51:53 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/28 21:05:07 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,12 @@ void	new_buffer(char **pbuffer, int start, int i)
 	char	*s3;
 	char	*tmp;
 	char	*env;
-	
+
 	tmp = ft_substr(*pbuffer, start + 1, i - start - 1);
 	env = getenv(tmp);
 	free(tmp);
-
 	s1 = ft_substr(*pbuffer, 0, start);
 	s2 = ft_strjoin(s1, env);
-
 	free(s1);
 	s1 = ft_substr(*pbuffer, i, ft_strlen(*pbuffer));
 	s3 = ft_strjoin(s2, s1);
@@ -36,34 +34,38 @@ void	new_buffer(char **pbuffer, int start, int i)
 	*pbuffer = s3;
 }
 
-void    dollar(char **pbuffer)
+void	init_(int *flag, int *i)
 {
-	int		flag;
-	int		flag2;
+	flag[0] = 0;
+	flag[1] = 0;
+	*i = -1;
+}
+
+void	dollar(char **pbuffer)
+{
+	int		flag[2];
 	int		i;
 	int		start;
 
 	while (1)
 	{
-		i = -1;
-		flag = 0;
-		flag2 = 0;
+		init_(flag, &i);
 		while ((*pbuffer)[++i])
 		{
 			if ((*pbuffer)[i] == '\'')
-				flag ^= 1;
+				flag[0] ^= 1;
 			if ((*pbuffer)[i] == '$' && !flag)
 			{
-				flag2 = 1;
+				flag[1] = 1;
 				start = i;
 				while (!ft_strchr("><| \"\'", (*pbuffer)[++i]))
 					;
 				new_buffer(pbuffer, start, i);
-				break;
+				break ;
 			}
 		}
-		if (flag2)
-			continue;
-		break;
+		if (flag[1])
+			continue ;
+		break ;
 	}
 }

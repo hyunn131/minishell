@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/09/24 19:08:11 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/28 21:12:39 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	connectpath2(DIR *dptr)
+{
+	if (errno != 0)
+		terminate(0);
+	if (closedir(dptr) == -1)
+		terminate(0);
+}
 
 static void	connectpath(char **argv0, char **ss)
 {
@@ -33,44 +41,35 @@ static void	connectpath(char **argv0, char **ss)
 				*argv0 = joinpath(ss[i], *argv0);
 				if (!(*argv0))
 					terminate(0);
-				break;
+				break ;
 			}
 			dir = readdir(dptr);
 		}
-
-		if (errno != 0)
-			terminate(0);
-		if (closedir(dptr) == -1)
-			terminate(0);			
+		connectpath2(dptr);
 	}
-}
-
-static void	cmdpath(char **argv0)
-{
-	char	*s;
-	char	**ss;
-
-	s = getenv("PATH");
-	if (!s)
-		terminate(0);
-	ss = ft_split(s, ':');
-	if (!ss)
-		terminate(0);
-	connectpath(argv0, ss);
-	free2d(ss);
 }
 
 static void	in_child_do_cmd(char **argv, char ***envp)
 {
+	char	*path;
+	char	**ss;
+
 	if (!isbuiltin(argv, envp))
 	{
-		cmdpath(&argv[0]);
+		path = getenv("PATH");
+		if (!path)
+			terminate(0);
+		ss = ft_split(path, ':');
+		if (!ss)
+			terminate(0);
+		connectpath(&argv[0], ss);
+		free2d(ss);
 		if (execve(argv[0], argv, *envp) == -1)
 			;//cmd_err(argv[0]);//에러처리
 	}
 }
 
-void    process(t_info *info)
+void	process(t_info *info)
 {
 	info->pid = e_fork();
 	if (info->pid == 0)
@@ -94,7 +93,6 @@ void    process(t_info *info)
 int	e_wait(pid_t pid)
 {
 	int		status;
-
 	pid_t	w_pid;
 
 	w_pid = waitpid(pid, &status, 0);

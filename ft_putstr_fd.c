@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 14:49:56 by docho             #+#    #+#             */
-/*   Updated: 2022/09/24 16:26:18 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/28 20:09:33 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,54 +31,34 @@ char	*ft_substr2(char const *s, unsigned int start, size_t len)
 		terminate(0);
 	while (j - start < len && j < slen)
 	{
-		if(s[j] != '\'' && s[j] != '\"')
+		if (s[j] != '\'' && s[j] != '\"')
 			sub[i++] = s[j];
 		j++;
 	}
 	return (sub);
 }
-/*립에프티에 있는 함수들 일단 주석처리해두었습니다.
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	char	*sub;
-	size_t	slen;
 
-	if (!s)
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	s1len;
+	size_t	s2len;
+	char	*str;
+
+	if (!s1 && !s2)
 		terminate(0);
-	i = 0;
-	slen = ft_strlen(s);
-	if (slen < len)
-		len = slen;
-	sub = (char *)malloc(sizeof(char) * (len + 1));
-	if (!sub)
+	if (!s1)
+		s1len = 0;
+	else
+		s1len = ft_strlen(s1);
+	if (!s2)
+		s2len = 0;
+	else
+		s2len = ft_strlen(s2);
+	str = (char *)malloc((s1len + s2len + 1) * sizeof(char));
+	if (!str)
 		terminate(0);
-	while (i < len && start + i < slen)
-	{
-		sub[i] = s[start + i];
-		i++;
-	}
-	sub[i] = '\0';
-	return (sub);
+	ft_memmove(str, s1, s1len * sizeof(char));
+	ft_memmove(str + s1len, s2, s2len * sizeof(char));
+	str[s1len + s2len] = '\0';
+	return (str);
 }
-
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s)
-		return ;
-	write(fd, s, ft_strlen(s));
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if (*s == (char)c)
-		return ((char *)s);
-	return (0);
-}*/

@@ -6,13 +6,13 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 16:36:46 by docho             #+#    #+#             */
-/*   Updated: 2022/09/18 23:49:33 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/28 20:16:50 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    input(char *filename, int *fd)
+void	input(char *filename, int *fd)
 {
 	if (*fd != 0)
 		e_close(*fd);
@@ -46,11 +46,11 @@ void	here_doc(char *limiter, int *fd)
 {
 	int		tmp[2];
 	char	*str;
-	
+
 	if (*fd != 0)
 		e_close(*fd);
 	e_pipe(tmp);
-	while(1)
+	while (1)
 	{
 		str = readline(">");
 		if (!str)

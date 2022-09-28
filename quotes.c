@@ -3,21 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 05:26:55 by docho             #+#    #+#             */
-/*   Updated: 2022/09/24 22:44:19 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/28 21:12:48 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	counting2(char *buffer, int *pi)
+{
+	int		i;
+	char	c;
+
+	i = *pi;
+	if (buffer[i] == '\"' || buffer[i] == '\'')
+	{
+		c = buffer[i];
+		while (buffer[++i] != c)
+			;
+	}
+	*pi = i;
+}
+
 void	counting(char *buffer, int *cnt)
 {
-	int 	i;
-	int 	flag;
-	char	c;
-	
+	int		i;
+	int		flag;
+
 	i = -1;
 	flag = 0;
 	*cnt = 0;
@@ -32,24 +46,37 @@ void	counting(char *buffer, int *cnt)
 				flag = 1;
 				(*cnt)++;
 			}
-			if (buffer[i] == '\"' || buffer[i] == '\'')
-			{
-				c = buffer[i];
-				while(buffer[++i] != c)
-					;
-			}
+			counting2(buffer, &i);
 		}
 	}
 }
 
+void	fills2(char *buffer, int *pi)
+{
+	int		i;
+	char	c;
+
+	i = *pi;
+	while (buffer[i] != ' ' && buffer[i])
+	{
+		if (buffer[i] == '\"' || buffer[i] == '\'')
+		{
+			c = buffer[i];
+			while (buffer[++i] != c)
+				;
+		}
+		i++;
+	}
+	*pi = i;
+}
+
 void	fills(char *buffer, t_info *info)
 {
-	int 	i;
-	int 	flag;
+	int		i;
+	int		flag;
 	int		start;
 	int		num;
-	char	c;
-	
+
 	i = -1;
 	flag = 0;
 	start = 0;
@@ -59,29 +86,20 @@ void	fills(char *buffer, t_info *info)
 		while (buffer[i] == ' ')
 			i++;
 		start = i;
-		while (buffer[i] != ' ' && buffer[i])
-		{
-			if (buffer[i] == '\"' || buffer[i] == '\'')
-			{
-				c = buffer[i];
-				while(buffer[++i] != c)
-					;
-			}
-			i++;
-		}
+		fills2(buffer, &i);
 		if (start == i)
 			break ;
 		info->argv[num++] = ft_substr2(buffer, start, i - start);
 	}
-}	
+}
 
 void	splits(char *buffer, t_info *info)
 {
-	int 	cnt;
+	int	cnt;
 
-	if (info || buffer) 
+	if (info || buffer)
 		;
-	cnt = 0;   
+	cnt = 0;
 	counting(buffer, &cnt);
 	info->argv = ft_calloc(cnt + 1, sizeof(char *));
 	if (!info->argv)
