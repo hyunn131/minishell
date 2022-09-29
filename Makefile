@@ -6,12 +6,12 @@
 #    By: docho <docho@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 16:14:31 by docho             #+#    #+#              #
-#    Updated: 2022/09/29 16:44:15 by docho            ###   ########.fr        #
+#    Updated: 2022/09/29 23:13:43 by junhkim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIB = -lft -L./libft
 RFLAGS = -lreadline -L/Users/docho/.brew/opt/readline/lib -I/Users/docho/.brew/opt/readline/include -lft -L./libft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 21:52:48 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:20:50 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	*ft_memset(void *b, int c, size_t len);
 void    dollar(char **pbuffer);
 void	exec_cmd(char *str, t_info *info);
 
-int	ft_count_envp(char **envp);
+char	*working_directory(void);
+char	**change_env(char *key_and_val, char **envp);
+int	ft_count_matrix(char **envp);
 
 
 #endif

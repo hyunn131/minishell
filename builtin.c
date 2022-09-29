@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 19:34:21 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:22:51 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ void	print_echo_char(char *argv)
 {
 	while (*argv)
 	{
-		// if (*argv == '\\')
-		// {
-		// 	write(1, argv, 2);
-		// 	argv++;
-		// 	continue ;
-		// }
 		if (*argv == '$')
 		{
 			if (*(argv + 1) == '?')
@@ -86,25 +80,50 @@ char	*build_path(char **argv)
 	return (result);
 }
 
-void	cd(char **argv)
+void	change_pwd(char ***envp, char *new_path)
 {
-	char	*path;
+	char	*new_env;
 
-	if (argv[2])
-		ft_putstr_fd("bash: cd: too many arguments\n", 2);
+	new_env = ft_strjoin("PWD=", new_path);
+	change_env(new_env, *envp);
+	free(new_env);
+}
+
+void	change_old_pwd(char ***envp, char *old_path)
+{
+	char	*new_env;
+
+	new_env = ft_strjoin("OLDPWD=", old_path);
+	change_env(new_env, *envp);
+	free(new_env);
+}
+
+void	cd(char **argv, char ***envp)
+{
+	char	*new_path;
+	char	*old_path;
+
 	if (!argv[1])
-		ft_putstr_fd("bash: cd: not a relative or absolute path\n", 2);
-	path = build_path(argv);
-	if (chdir(path) == 0)
 	{
-		// PWD, OLDPWD  바꾸기
+		ft_putstr_fd("bash: cd: not a relative or absolute path\n", 2);
+		return ;
+	}
+	old_path = working_directory();
+	new_path = build_path(argv); // need to be modified
+	if (!chdir(new_path))
+	{
+		change_pwd(envp, new_path);
+		change_old_pwd(envp, old_path);
+		free(old_path);
 	}
 	else
 	{
-		ft_putstr_fd("bash: cd: :", 2);
+		ft_putstr_fd("bash: cd: ", 2);
+		ft_putstr_fd("No such file or directory: ", 2);
 		ft_putstr_fd(argv[1], 2);
-		ft_putstr_fd("No such file or directory\n", 2);
+		ft_putstr_fd("\n", 2);
 	}
+	free(old_path);
 }
 
 void	env(char **argv, char **envp)
@@ -120,6 +139,8 @@ void	env(char **argv, char **envp)
 	i = 0;
 	while(envp[i++])
 	{
+		if (!envp[i][0])
+			break ;
 		ft_putstr_fd(envp[i], 1);
 		write(1, "\n", 1);
 	}
@@ -135,14 +156,14 @@ char	*working_directory(void)
 	{
 		buf = (char *)malloc(n * 100 * sizeof(char));
 		if (buf == NULL)
-			// terminate();
+			terminate(0);
 		if (getcwd(buf, n++ * 100) == NULL)
 		{
 			free(buf);
 			if (errno == ERANGE)
 				continue ;
-			// else
-			// 	terminate();
+			else
+				terminate(0);
 		}
 		break ;
 	}
@@ -155,6 +176,7 @@ void    pwd(void)
 
 	buf = working_directory();
 	ft_putstr_fd(buf, 1);
+	write(1, "\n", 1);
 	free(buf);
 }
 
@@ -197,7 +219,7 @@ char	**remove_one_var(char **envp, int index)
 	char	**new;
 
 	i = 0;
-	count = ft_count_envp(envp);
+	count = ft_count_matrix(envp);
 	new = (char **)malloc(sizeof(char *) * count);
 	if (!new)
 		return (envp); 
@@ -261,7 +283,7 @@ void	exit_error_message(char *message, char *non_numeric)
 	if (non_numeric)
 	{
 		ft_putstr_fd(non_numeric, 2);
-		ft_putstr_fd(" ", 2);
+		ft_putstr_fd(": ", 2);
 	}
 	ft_putstr_fd(message, 2);
 	ft_putstr_fd("\n", 2);
@@ -269,10 +291,11 @@ void	exit_error_message(char *message, char *non_numeric)
 
 int	is_all_digit(char *str)
 {
-	while (*str++)
+	while (*str)
 	{
 		if (!ft_isdigit(*str))
 			return (0);
+		str++;
 	}
 	return (1);
 }
@@ -293,12 +316,14 @@ void	free_argv(char **argv)
 void	f_exit(char **argv)
 {
 	int	i;
+	int	count;
 
-	if (argv[2])
+	count = ft_count_matrix(argv);
+	if (count >= 3)
 		exit_error_message("too many arguments", 0);
-	else if (argv[1] && !is_all_digit(argv[1]))
+	else if (count == 2 && !is_all_digit(argv[1]))
 		exit_error_message("numeric argument required", argv[1]);
-	else if (argv[1])
+	else if (count == 2)
 	{
 		i = ft_atoi(argv[1]);
 		free_argv(argv);
@@ -313,8 +338,8 @@ void	f_exit(char **argv)
 
 int	ft_strncmp_equalsign(char *s1, char *s2, int len)
 {
-	if ((!ft_strncmp(s1, s2, len)) && (s1[len] == s2[len]) 
-		&& (s1[len] == '='))
+	if ((!ft_strncmp(s1, s2, len)) && (s1[len - 1] == s2[len - 1]) 
+		&& (s1[len - 1] == '='))
 		return (0);
 	return (1);
 }
@@ -339,7 +364,7 @@ char	*ft_new_envp(char *key, char *new_val)
 	return (new_str);
 }
 
-int	ft_count_envp(char **envp)
+int	ft_count_matrix(char **envp)
 {
 	int	i;
 
@@ -422,7 +447,7 @@ char	**change_env(char *key_and_val, char **envp)
 		envp[i] = tmp;
 		return (envp);
 	}
-	envp_count = ft_count_envp(envp);
+	envp_count = ft_count_matrix(envp);
 	new_envp = new_added_envp(key_and_val, envp, envp_count);
 	if (!new_envp)
 		return (0);
@@ -453,10 +478,12 @@ int	check_export_valid(char *argv)
 
 void    export(char **argv, char ***envp)
 {
-	int		i;
+	int	i;
+	int	count;
 
 	i = 0;
-	while (argv[++i])
+	count = ft_count_matrix(argv);
+	while (++i < count)
 	{
 		if (!ft_strchr(argv[i], '='))
 			continue ;
@@ -466,6 +493,8 @@ void    export(char **argv, char ***envp)
 			continue ;
 		}
 		*envp = change_env(argv[i], *envp);
+		if (!(*envp))
+			terminate(0);
 	}
 }
 
@@ -474,7 +503,7 @@ bool	isbuiltin(char **argv, char ***envp)
 	if (ft_strcmp(argv[0], "echo"))
 		echo(argv);
 	else if (ft_strcmp(argv[0], "cd"))
-		cd(argv);
+		cd(argv, envp);
 	else if (ft_strcmp(argv[0], "pwd"))
 		pwd();
 	else if (ft_strcmp(argv[0], "export"))
