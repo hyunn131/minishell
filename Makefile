@@ -6,7 +6,7 @@
 #    By: docho <docho@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 16:14:31 by docho             #+#    #+#              #
-#    Updated: 2022/09/28 21:06:46 by docho            ###   ########.fr        #
+#    Updated: 2022/09/29 16:44:15 by docho            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 LIB = -lft -L./libft
 RFLAGS = -lreadline -L/Users/docho/.brew/opt/readline/lib -I/Users/docho/.brew/opt/readline/include -lft -L./libft
 SRCS = cmd.c process.c builtin.c error.c io.c \
-	split.c utils.c ft_calloc.c ft_putstr_fd.c \
-	quotes.c dollar.c
+	utils.c ft_putstr_fd.c quotes.c dollar.c main.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

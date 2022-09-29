@@ -6,11 +6,13 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 14:49:56 by docho             #+#    #+#             */
-/*   Updated: 2022/09/28 20:09:33 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 15:08:49 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 char	*ft_substr2(char const *s, unsigned int start, size_t len)
 {

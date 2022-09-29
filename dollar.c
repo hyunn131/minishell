@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:38:48 by docho             #+#    #+#             */
-/*   Updated: 2022/09/28 21:05:07 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 13:52:56 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	dollar(char **pbuffer)
 		{
 			if ((*pbuffer)[i] == '\'')
 				flag[0] ^= 1;
-			if ((*pbuffer)[i] == '$' && !flag)
+			if ((*pbuffer)[i] == '$' && !flag[0])
 			{
 				flag[1] = 1;
 				start = i;
