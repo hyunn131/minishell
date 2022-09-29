@@ -6,117 +6,145 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 16:45:00 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 22:07:37 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*make_filename(char **str)
+char	*make_filename(char *str, int *idx)
 {
 	int		i;
-	char	*s;
+	int		j;
+	int		len;
 	char	*filename;
 
-	s = *str;
-	while (*s == '>' || *s == '<')
-		s++;
-	while (*s == ' ')
-		s++;
-	i = 0;
-	while (s[i] > 32 && s[i] <= 126 && \
-			s[i] != '<' && s[i] != '>' && s[i] != '|')
+	i = *idx;
+	while (str[i] == '>' || str[i] == '<')
 		i++;
-	if (i == 0)
-		terminate("syntax error near unexpected token '*s'");
-	filename = ft_calloc(sizeof(char), i + 1);
-	i = 0;
-	while (*s > 32 && *s <= 126 && *s != '<' && *s != '>' && *s != '|')
-		filename[i++] = *s++;
+	while (str[i] == ' ')
+		i++;
+	len = 0;
+	while (str[i + len] > 32 && str[i + len] <= 126 && str[i + len] != '<' \
+			&& str[i + len] != '>' && str[i + len] != '|')
+		len++;
+	if (len == 0)
+		terminate("syntax error near unexpected token 'str[i]'");
+	filename = ft_calloc(sizeof(char), len + 1);
 	if (!filename)
 		terminate(0);
-	*str = s;
+	j = 0;
+	while (j < len)
+		filename[j++] = str[i++];
+	*idx = i;
 	return (filename);
 }
 
-void	do_buffer(t_info *info, char *buffer)
-{
-	dollar(&buffer);
-	splits(buffer, info);
-	free(buffer);
-}
-
-void	make_exec(char *str, t_info *info, char *buffer)
+void	make_exec(char *str, int idx, t_info *info, char *buffer)
 {
 	int		i;
-	int		flag;
+	int		j;
+	int		flag[2];
 
-	i = 0;
-	flag = 0;
-	while (*str && (*str != '|' || flag))
+	j = 0;
+	flag[0] = 0;
+	flag[1] = 1;
+	i = info->lens[idx - 1];
+	while (++i < info->lens[idx])
 	{
-		if (!flag && *str == '>' && *(str + 1) == '>')
-			append(make_filename(&str), &info->fd[1]);
-		else if (!flag && *str == '>' && *(str + 1) != '>')
-			output(make_filename(&str), &info->fd[1]);
-		else if (!flag && *str == '<' && *(str + 1) == '<')
-			here_doc(make_filename(&str), &info->inputfd);
-		else if (!flag && *str == '<' && *(str + 1) != '<')
-			input(make_filename(&str), &info->inputfd);
+		if (str[i] == '\'')
+			flag[0] ^= 1;
+		else if (str[i] == '\"')
+			flag[1] ^= 1;
+		if (!flag[0] && !flag[1] && str[i] == '>' && str[i + 1] == '>')
+			append(make_filename(str, &i), &info->fd[1]);
+		else if (!flag[0] && !flag[1] && str[i] == '>' && str[i + 1] != '>')
+			output(make_filename(str, &i), &info->fd[1]);
+		else if (!flag[0] && !flag[1] && str[i] == '<' && str[i + 1] == '<')
+			here_doc(make_filename(str, &i), &info->inputfd);
+		else if (!flag[0] && !flag[1] && str[i] == '<' && str[i + 1] != '<')
+			input(make_filename(str, &i), &info->inputfd);
 		else
-		{
-			if (*str == '\"' || *str == '\'')
-				flag ^= 1;
-			buffer[i++] = *str++;
-		}
+			buffer[j++] = str[i];
 	}
-	do_buffer(info, buffer);
 }
 
-void	iofd(char *str, t_info *info)
+void	pipecount(char *str, t_info *info)
 {
-	int	flag;
+	int		i;
+	int		j;
+	int		flag[2];
 
-	flag = 0;
-	info->len = 0;
-	while (str[info->len] && (str[info->len] != '|' || flag))
+	flag[0] = 0;
+	flag[1] = 0;
+	info->lens = ft_calloc(ft_strlen(str) + 1, sizeof(int));
+	if (!(info->lens))
+		terminate(0);
+	j = 0;
+	info->lens[j++] = -1;
+	i = -1;
+	while (str[++i])
 	{
-		if (str[info->len] == '\"' || str[info->len] == '\'')
-			flag ^= 1;
-		info->len++;
+		if (str[i] == '|' && !flag[0] && !flag[1])
+			info->lens[j++] = i;
+		if (str[i] == '\'')
+			flag[0] ^= 1;
+		if (str[i] == '\"')
+			flag[1] ^= 1;
 	}
-	if (!str[info->len])
+	info->lens[j] = i;
+	info->cnt = j;
+}
+
+void	iofd(char *str, int i, t_info *info)
+{
+	char	*buffer;
+
+	if (i == info->cnt)
 	{
 		info->fd[1] = 1;
 		info->fd[0] = -1;
 	}
 	else
 		e_pipe(info->fd);
+	buffer = ft_calloc(info->lens[i] - info->lens[i - 1], sizeof(char));
+	if (!buffer)
+		terminate(0);
+	make_exec(str, i, info, buffer);
+	dollar(&buffer);
+	splits(buffer, info);
+	free(buffer);
 }
 
-void	exec_cmd(char *str, char **envp, int *n)
+void	exec_cmd(char *str, t_info *info)
 {
-	t_info	info;
-	char	*buffer;
+	int		i;
+	char	*ss;
 
-	info.envp = envp;
-	info.inputfd = 0;
-	while (*str)
+	pipecount(str, info);
+	i = 0;
+	while (++i <= info->cnt)
 	{
-		iofd(str, &info);
-		buffer = ft_calloc(info.len + 1, sizeof(char));
-		if (!buffer)
-			terminate(0);
-		make_exec(str, &info, buffer);
-		if (!info.argv)
-			terminate(0);
-		if (!*(info.argv))
-			terminate("syntax error near unexpected token '*s'");
-		process(&info);
-		if (!str[info.len])
-			break ;
-		free2d(info.argv);
-		str = &str[++info.len];
+		iofd(str, i, info);
+		if (!*(info->argv) && i != info->cnt)
+		{
+			ft_putendl_fd("syntax error near unexpected token '|'", 2);
+			return ;
+		}
+		else if (!*(info->argv) && i == info->cnt)
+		{
+			ss = readline(">");
+			exec_cmd(ss, info);
+			free(ss);
+			return ;
+		}
+		else if (info->cnt == 1 && isbuiltin(info->argv, &info->envp))
+			continue ;
+		else
+		{
+			process(info);
+			free2d(info->argv);
+		}
 	}
-	*n = e_wait(info.pid);
+	info->exit_n = e_wait(info->pid);
 }

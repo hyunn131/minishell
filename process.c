@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/09/28 21:12:39 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 19:35:25 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	connectpath(char **argv0, char **ss)
 	}
 }
 
-static void	in_child_do_cmd(char **argv, char ***envp)
+void	in_child_do_cmd(char **argv, char ***envp)
 {
 	char	*path;
 	char	**ss;
@@ -95,6 +95,8 @@ int	e_wait(pid_t pid)
 	int		status;
 	pid_t	w_pid;
 
+	if (pid == 0)
+		return (1);
 	w_pid = waitpid(pid, &status, 0);
 	if (w_pid == -1)
 		terminate(0);
