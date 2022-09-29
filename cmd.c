@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/28 21:11:43 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 16:45:00 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,18 +119,4 @@ void	exec_cmd(char *str, char **envp, int *n)
 		str = &str[++info.len];
 	}
 	*n = e_wait(info.pid);
-}
-
-int	main(int argc, char **argv, char **envp){
-	int n;
-	char *s;
-	
-	if (argc || argv)
-		;
-	while (1)
-	{
-		s = readline(">");
-		exec_cmd(s, envp, &n);
-	}
-	return (0);
 }

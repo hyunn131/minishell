@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 14:49:56 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 15:08:49 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 16:54:04 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_substr2(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin2(char const *s1, char const *s2)
 {
 	size_t	s1len;
 	size_t	s2len;

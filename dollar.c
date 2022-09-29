@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:38:48 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 13:52:56 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 16:54:30 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void	new_buffer(char **pbuffer, int start, int i)
 	env = getenv(tmp);
 	free(tmp);
 	s1 = ft_substr(*pbuffer, 0, start);
-	s2 = ft_strjoin(s1, env);
+	s2 = ft_strjoin2(s1, env);
+	
 	free(s1);
 	s1 = ft_substr(*pbuffer, i, ft_strlen(*pbuffer));
-	s3 = ft_strjoin(s2, s1);
+	s3 = ft_strjoin2(s2, s1);
 	free(s1);
 	free(s2);
 	free(*pbuffer);
