@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 17:44:24 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 18:04:27 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,19 @@ typedef struct s_info{
 	int		exit_n;
 }				t_info;
 
-
-void    free2d(char **ss);
-void    terminate(char *str);
-void    e_close(int fd);
-void    e_pipe(int *fd);
-pid_t	e_fork();
-bool    ft_strcmp(char *s1, char *s2);
+void	free2d(char **ss);
+void	terminate(char *str);
+void	e_close(int fd);
+void	e_pipe(int *fd);
+pid_t	e_fork(void);
+bool	ft_strcmp(char *s1, char *s2);
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 char	*joinpath(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
-void    process(t_info *info);
-int     e_wait(pid_t pid);
-void    input(char *filename, int *fd);
+void	process(t_info *info);
+int		e_wait(pid_t pid);
+void	input(char *filename, int *fd);
 void	output(char *filename, int *fd);
 void	append(char *filename, int *fd);
 void	here_doc(char *limiter, int *fd);
@@ -68,7 +67,6 @@ void	*ft_memset(void *b, int c, size_t len);
 void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(char *str, t_info *info);
 char	*check_token(char *str);
-
 void	free_argv(char **argv);
 void	print_echo_char(char *argv);
 void	print_echo(char **argv, int start);
@@ -90,7 +88,6 @@ void	exit_error_message(char *message, char *non_numeric);
 int		is_all_digit(char *str);
 int		f_exit(char **argv);
 int		ft_strncmp_equalsign(char *s1, char *s2, int len);
-char	*ft_new_envp(char *key, char *new_val);
 int		ft_count_matrix(char **envp);
 char	*ft_envp_copy(char **envp, int index);
 char	**new_added_envp(char *key_and_val, char **envp, int count);
