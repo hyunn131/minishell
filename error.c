@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:07:19 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 16:48:47 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 13:35:31 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,19 @@ pid_t	e_fork(void)
 		terminate(0);
 	}
 	return (pid);
+}
+
+char	*check_token(char *str)
+{
+	if (!ft_strncmp(str, ">", 1))
+		return (">");
+	else if (!ft_strncmp(str, ">>", 2))
+		return (">>");
+	else if (!ft_strncmp(str, "<", 1))
+		return ("<");
+	else if (!ft_strncmp(str, "<<", 2))
+		return ("<<");
+	else if (!ft_strncmp(str, "|", 1))
+		return ("|");
+	return (0);
 }

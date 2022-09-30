@@ -6,13 +6,13 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:38:48 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 16:54:30 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 13:25:56 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	new_buffer(char **pbuffer, int start, int i)
+void	new_buffer(char **pbuffer, int start, int i, t_info *info)
 {
 	char	*s1;
 	char	*s2;
@@ -21,11 +21,16 @@ void	new_buffer(char **pbuffer, int start, int i)
 	char	*env;
 
 	tmp = ft_substr(*pbuffer, start + 1, i - start - 1);
-	env = getenv(tmp);
+	if (!ft_strncmp(tmp, "?", 1))
+	{
+		env = ft_itoa(info->exit_n);
+		i = start + 2;
+	}
+	else
+		env = getenv(tmp);
 	free(tmp);
 	s1 = ft_substr(*pbuffer, 0, start);
 	s2 = ft_strjoin2(s1, env);
-	
 	free(s1);
 	s1 = ft_substr(*pbuffer, i, ft_strlen(*pbuffer));
 	s3 = ft_strjoin2(s2, s1);
@@ -42,7 +47,7 @@ void	init_(int *flag, int *i)
 	*i = -1;
 }
 
-void	dollar(char **pbuffer)
+void	dollar(char **pbuffer, t_info *info)
 {
 	int		flag[2];
 	int		i;
@@ -61,7 +66,7 @@ void	dollar(char **pbuffer)
 				start = i;
 				while (!ft_strchr("><| \"\'", (*pbuffer)[++i]))
 					;
-				new_buffer(pbuffer, start, i);
+				new_buffer(pbuffer, start, i, info);
 				break ;
 			}
 		}

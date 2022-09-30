@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 12:29:51 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:23:51 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	main(int argc, char **argv, char **envp)
 	//signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, sig_handler);
-
+	init_info(&info, envp);
 	while (1)
 	{
 		s = readline(">");
-		init_info(&info, envp);
 		exec_cmd(s, &info);
 	}
+	free2d(info.envp);
 	return (0);
 }

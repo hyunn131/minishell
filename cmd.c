@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 12:52:29 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:35:07 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	iofd(char *str, int i, t_info *info)
 	if (!buffer)
 		terminate(0);
 	make_exec(str, i, info, buffer);
-	dollar(&buffer);
+	dollar(&buffer, info);
 	splits(buffer, info);
 	free(buffer);
 }
@@ -129,6 +129,7 @@ void	exec_cmd(char *str, t_info *info)
 		if (!*(info->argv) && i != info->cnt)
 		{
 			ft_putendl_fd("syntax error near unexpected token '|'", 2);
+			ft_putendl_fd(check_token(&str[info->lens[i]]), 2);
 			return ;
 		}
 		else if (!*(info->argv) && i == info->cnt)
@@ -139,7 +140,7 @@ void	exec_cmd(char *str, t_info *info)
 			return ;
 		}
 		else if (info->cnt == 1 && isbuiltin(info))
-			continue ;
+			return ;
 		else
 		{
 			process(info);

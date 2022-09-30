@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:03:00 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:34:52 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_substr2(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin2(char const *s1, char const *s2);
 void	*ft_memset(void *b, int c, size_t len);
-void    dollar(char **pbuffer);
+void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(char *str, t_info *info);
+char	*check_token(char *str);
 
 char	*working_directory(void);
 char	**change_env(char *key_and_val, char **envp);
