@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:02:39 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:36:42 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,28 +98,28 @@ void	change_old_pwd(char ***envp, char *old_path)
 	free(new_env);
 }
 
-int	cd(char **argv, char ***envp)
+int	cd(t_info *info)
 {
 	char	*new_path;
 	char	*old_path;
 
-	if (!argv[1])
+	if (!info->argv[1])
 	{
 		ft_putstr_fd("bash: cd: not a relative or absolute path\n", 2);
 		return (1);
 	}
 	old_path = working_directory();
-	new_path = build_path(argv);
+	new_path = build_path(info->argv);
 	if (!chdir(new_path))
 	{
 		// change_pwd(envp, new_path);
 		// change_old_pwd(envp, old_path);
-		printf("%s\n", (*envp)[0]);
+		printf("%s\n", info->envp[0]);
 	}
 	else
 	{
 		ft_putstr_fd("bash: cd: No such file or directory: ", 2);
-		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(info->argv[1], 2);
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
@@ -127,7 +127,7 @@ int	cd(char **argv, char ***envp)
 	return (0);
 }
 
-void	env(char **argv, char **envp)
+int	env(char **argv, char **envp)
 {
 	int	i;
 	if (argv[1])
@@ -135,7 +135,7 @@ void	env(char **argv, char **envp)
 		ft_putstr_fd("env: '", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd("' : Permission Denied\n", 2);
-		return ;
+		return (1);
 	}
 	i = 0;
 	while(envp[i])
@@ -146,6 +146,7 @@ void	env(char **argv, char **envp)
 		write(1, "\n", 1);
 		i++;
 	}
+	return (0);
 }
 
 char	*working_directory(void)
@@ -172,7 +173,7 @@ char	*working_directory(void)
 	return (buf);
 }
 
-void    pwd(void)
+int	pwd(void)
 {
 	char	*buf;
 
@@ -180,6 +181,7 @@ void    pwd(void)
 	ft_putstr_fd(buf, 1);
 	write(1, "\n", 1);
 	free(buf);
+	return (0);
 }
 
 int	check_env_name(char *name)
@@ -262,21 +264,27 @@ char	**unset_var(char *varname, char **envp)
 	return (new_envp);
 }
 
-void    unset(char **argv, char ***envp)
+int	unset(char **argv, char ***envp)
 {
 	int	i;
+	int	invalid_flag;
 
 	i = 1;
+	invalid_flag = 0;
 	while (argv[i])
 	{
 		if (!check_env_name(argv[i]))
 		{
 			print_unset_invalid(argv[i]);
+			invalid_flag = 1;
 			continue ;
 		}
 		*envp = unset_var(argv[i], *envp);
 		i++;
 	}
+	if (invalid_flag)
+		return (1);
+	return (0);
 }
 
 void	exit_error_message(char *message, char *non_numeric)
@@ -315,27 +323,29 @@ void	free_argv(char **argv)
 	free(argv);
 }
 
-void	f_exit(char **argv)
+int	f_exit(char **argv)
 {
 	int	i;
 	int	count;
 
 	count = ft_count_matrix(argv);
-	if (count >= 3)
-		exit_error_message("too many arguments", 0);
-	else if (count == 2 && !is_all_digit(argv[1]))
+	if (count >= 2 && !is_all_digit(argv[1]))
+	{
 		exit_error_message("numeric argument required", argv[1]);
+		exit(255);
+	}
+	else if (count >= 3)
+	{
+		exit_error_message("too many arguments", 0);
+		return (1);
+	}
 	else if (count == 2)
 	{
 		i = ft_atoi(argv[1]);
-		free_argv(argv);
 		exit(i);
 	}
 	else
-	{
-		free_argv(argv);
 		exit(0);
-	}
 }
 
 int	ft_strncmp_equalsign(char *s1, char *s2, int len)
@@ -478,12 +488,14 @@ int	check_export_valid(char *argv)
 	return (1);
 }
 
-void    export(char **argv, char ***envp)
+int	export(char **argv, char ***envp)
 {
 	int	i;
 	int	count;
+	int	invalid_flag;
 
 	i = 0;
+	invalid_flag = 0;
 	count = ft_count_matrix(argv);
 	while (++i < count)
 	{
@@ -492,12 +504,16 @@ void    export(char **argv, char ***envp)
 		if (!check_export_valid(argv[i]))
 		{
 			print_export_invalid(argv[i]);
+			invalid_flag = 1;
 			continue ;
 		}
 		*envp = change_env(argv[i], *envp);
 		if (!(*envp))
 			terminate(0);
 	}
+	if (invalid_flag)
+		return (1);
+	return (0);
 }
 
 bool	isbuiltin(t_info *info) // 함수들 실패 시 리턴값
@@ -505,17 +521,17 @@ bool	isbuiltin(t_info *info) // 함수들 실패 시 리턴값
 	if (ft_strcmp(info->argv[0], "echo"))
 		info->exit_n = echo(info);
 	else if (ft_strcmp(info->argv[0], "cd"))
-		info->exit_n = cd(info->argv, &info->envp);
+		info->exit_n = cd(info);
 	else if (ft_strcmp(info->argv[0], "pwd"))
-		pwd();
+		info->exit_n = pwd();
 	else if (ft_strcmp(info->argv[0], "export"))
-		export(info->argv, &info->envp);
+		info->exit_n = export(info->argv, &info->envp);
 	else if (ft_strcmp(info->argv[0], "unset"))
-		unset(info->argv, &info->envp);
+		info->exit_n = unset(info->argv, &info->envp);
 	else if (ft_strcmp(info->argv[0], "env"))
-		env(info->argv, info->envp);
+		info->exit_n = env(info->argv, info->envp);
 	else if (ft_strcmp(info->argv[0], "exit"))
-		f_exit(info->argv);
+		info->exit_n = f_exit(info->argv);
 	else
 		return (false);
 	return (true);
