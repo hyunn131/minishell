@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:35:07 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 14:11:45 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,14 @@ void	pipecount(char *str, t_info *info)
 	info->cnt = j;
 }
 
-void	iofd(char *str, int i, t_info *info)
+void	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
 {
 	char	*buffer;
 
 	if (i == info->cnt)
 	{
 		info->fd[1] = 1;
-		info->fd[0] = -1;
+		info->fd[0] = 0;
 	}
 	else
 		e_pipe(info->fd);
@@ -114,6 +114,21 @@ void	iofd(char *str, int i, t_info *info)
 	dollar(&buffer, info);
 	splits(buffer, info);
 	free(buffer);
+}
+
+void	print_info(t_info *info)
+{
+	printf("print info---------------------\n");
+	for (int i = 0; info->envp[i]; ++i)
+		printf("%s\n", info->envp[i]);
+	for (int i = 0; i <= info->cnt; ++i)
+		printf("%d\n", info->lens[i]);
+	printf("%d\n", info->cnt);
+	printf("%d\n", info->fd[0]);
+	printf("%d\n", info->fd[1]);
+	printf("%d\n", info->inputfd);
+	printf("%d\n", info->pid);
+	printf("%d\n", info->exit_n);
 }
 
 void	exec_cmd(char *str, t_info *info)
@@ -128,8 +143,9 @@ void	exec_cmd(char *str, t_info *info)
 		iofd(str, i, info);
 		if (!*(info->argv) && i != info->cnt)
 		{
-			ft_putendl_fd("syntax error near unexpected token '|'", 2);
-			ft_putendl_fd(check_token(&str[info->lens[i]]), 2);
+			ft_putstr_fd("syntax error near unexpected token '", 2);
+			ft_putstr_fd(check_token(&str[info->lens[i]]), 2);
+			ft_putendl_fd("'", 2);
 			return ;
 		}
 		else if (!*(info->argv) && i == info->cnt)

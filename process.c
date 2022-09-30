@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:20:39 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 14:10:46 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	process(t_info *info)
 	info->pid = e_fork();
 	if (info->pid == 0)
 	{
-		if (info->fd[0] != -1)
+		if (info->fd[0] != 0)
 			e_close(info->fd[0]);//pipe 안열때? pipe 없을땐?
 		dup2(info->inputfd, 0);
 		dup2(info->fd[1], 1);
