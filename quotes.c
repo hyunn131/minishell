@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 05:26:55 by docho             #+#    #+#             */
-/*   Updated: 2022/09/28 21:12:48 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/29 23:27:58 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,4 @@ void	splits(char *buffer, t_info *info)
 	if (!info->argv)
 		terminate(0);
 	fills(buffer, info);
-	printf("argv-------------\n");
-	for (int i = 0; info->argv[i]; ++i)
-	{
-		printf("argv[%d]: %s\n", i, info->argv[i]);
-	}
-	printf("\n");
 }

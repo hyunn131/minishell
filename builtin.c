@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 23:22:51 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 09:34:40 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,12 +137,13 @@ void	env(char **argv, char **envp)
 		return ;
 	}
 	i = 0;
-	while(envp[i++])
+	while(envp[i])
 	{
 		if (!envp[i][0])
 			break ;
 		ft_putstr_fd(envp[i], 1);
 		write(1, "\n", 1);
+		i++;
 	}
 }
 
@@ -498,7 +499,7 @@ void    export(char **argv, char ***envp)
 	}
 }
 
-bool	isbuiltin(char **argv, char ***envp)
+bool	isbuiltin(char **argv, char ***envp) // 함수들 실패 시 리턴값
 {
 	if (ft_strcmp(argv[0], "echo"))
 		echo(argv);
