@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:07:19 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 15:31:02 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 18:04:26 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ pid_t	e_fork(void)
 	return (pid);
 }
 
-char	*check_token(char *str)
+void	syntex_err(char *str)
 {
 	ft_putstr_fd("syntax error near unexpected token '", 2);
 	if (!ft_strncmp(str, ">>", 2))
@@ -62,5 +62,5 @@ char	*check_token(char *str)
 		ft_putstr_fd("|", 2);
 	else if (!ft_strncmp(str, "\n", 1))
 		ft_putstr_fd("newline", 2);
-	return (0);
+	ft_putendl_fd("'", 2);
 }

@@ -6,11 +6,26 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:49:14 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 15:06:42 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 18:05:13 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char    *ft_getenv(char *str, t_info *info)
+{
+	int	i;
+	int	len;
+
+	i = -1;
+	len = ft_strlen(str) + 1;
+	while (info->envp[++i])
+	{
+		if (!ft_strncmp_equalsign(info->envp[i], str, len))
+			return (&(info->envp[i])[len]);
+	}
+	return (0);
+}
 
 void	free2d(char **ss)
 {

@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:34:52 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 18:05:31 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ char	*joinpath(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 void    process(t_info *info);
 int     e_wait(pid_t pid);
-void    input(char *filename, int *fd);
-void	output(char *filename, int *fd);
-void	append(char *filename, int *fd);
-void	here_doc(char *limiter, int *fd);
+bool    input(char *filename, int *fd);
+bool	output(char *filename, int *fd);
+bool	append(char *filename, int *fd);
+bool	here_doc(char *limiter, int *fd);
 bool	isbuiltin(t_info *info);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *s, int c);
@@ -67,11 +67,11 @@ char	*ft_strjoin2(char const *s1, char const *s2);
 void	*ft_memset(void *b, int c, size_t len);
 void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(char *str, t_info *info);
-char	*check_token(char *str);
+void	syntex_err(char *str);
 
 char	*working_directory(void);
 char	**change_env(char *key_and_val, char **envp);
 int	ft_count_matrix(char **envp);
-
+int	ft_strncmp_equalsign(char *s1, char *s2, int len);
 
 #endif
