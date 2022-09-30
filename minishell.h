@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 23:20:50 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:03:00 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void    input(char *filename, int *fd);
 void	output(char *filename, int *fd);
 void	append(char *filename, int *fd);
 void	here_doc(char *limiter, int *fd);
-bool	isbuiltin(char **argv, char ***envp);
+bool	isbuiltin(t_info *info);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strchr(const char *s, int c);
 void	splits(char *buffer, t_info *info);

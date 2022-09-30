@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 09:34:40 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 13:02:39 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ void	print_echo_char(char *argv)
 {
 	while (*argv)
 	{
-		if (*argv == '$')
-		{
-			if (*(argv + 1) == '?')
-			{
-				// exit code 매개변수로 받아서 출력
-				argv += 2;
-				continue ;
-			}	
-		}
 		ft_putchar_fd(*argv, 1);
 		argv++;
 	}
@@ -52,20 +43,21 @@ void	print_echo(char **argv, int start)
 	}
 }
 
-void	echo(char **argv)
+int	echo(t_info *info)
 {
-	if (!argv[1])
+	if (!info->argv[1])
 	{
 		write(1, "\n", 1);
-		return ;
+		return (0);
 	}
-	if (ft_strcmp(argv[1], "-n"))
-		print_echo(argv, 1);
+	if (ft_strcmp(info->argv[1], "-n"))
+		print_echo(info->argv, 1);
 	else
 	{
-		print_echo(argv, 1);
+		print_echo(info->argv, 1);
 		write(1, "\n", 1);
 	}
+	return (0);
 }
 
 char	*build_path(char **argv)
@@ -76,7 +68,11 @@ char	*build_path(char **argv)
 		|| !ft_strncmp(argv[1], "/", 1))
 		result = argv[1];
 	else
-		result = NULL;
+	{
+		result = ft_strjoin("./", argv[1]);
+		if (!result)
+			terminate(0);
+	}
 	return (result);
 }
 
@@ -85,7 +81,9 @@ void	change_pwd(char ***envp, char *new_path)
 	char	*new_env;
 
 	new_env = ft_strjoin("PWD=", new_path);
-	change_env(new_env, *envp);
+	if (!new_env)
+		terminate(0);
+	*envp = change_env(new_env, *envp);
 	free(new_env);
 }
 
@@ -94,11 +92,13 @@ void	change_old_pwd(char ***envp, char *old_path)
 	char	*new_env;
 
 	new_env = ft_strjoin("OLDPWD=", old_path);
-	change_env(new_env, *envp);
+	if (!new_env)
+		terminate(0);
+	*envp = change_env(new_env, *envp);
 	free(new_env);
 }
 
-void	cd(char **argv, char ***envp)
+int	cd(char **argv, char ***envp)
 {
 	char	*new_path;
 	char	*old_path;
@@ -106,24 +106,25 @@ void	cd(char **argv, char ***envp)
 	if (!argv[1])
 	{
 		ft_putstr_fd("bash: cd: not a relative or absolute path\n", 2);
-		return ;
+		return (1);
 	}
 	old_path = working_directory();
-	new_path = build_path(argv); // need to be modified
+	new_path = build_path(argv);
 	if (!chdir(new_path))
 	{
-		change_pwd(envp, new_path);
-		change_old_pwd(envp, old_path);
-		free(old_path);
+		// change_pwd(envp, new_path);
+		// change_old_pwd(envp, old_path);
+		printf("%s\n", (*envp)[0]);
 	}
 	else
 	{
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd("No such file or directory: ", 2);
+		ft_putstr_fd("bash: cd: No such file or directory: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd("\n", 2);
+		return (1);
 	}
 	free(old_path);
+	return (0);
 }
 
 void	env(char **argv, char **envp)
@@ -499,22 +500,22 @@ void    export(char **argv, char ***envp)
 	}
 }
 
-bool	isbuiltin(char **argv, char ***envp) // 함수들 실패 시 리턴값
+bool	isbuiltin(t_info *info) // 함수들 실패 시 리턴값
 {
-	if (ft_strcmp(argv[0], "echo"))
-		echo(argv);
-	else if (ft_strcmp(argv[0], "cd"))
-		cd(argv, envp);
-	else if (ft_strcmp(argv[0], "pwd"))
+	if (ft_strcmp(info->argv[0], "echo"))
+		info->exit_n = echo(info);
+	else if (ft_strcmp(info->argv[0], "cd"))
+		info->exit_n = cd(info->argv, &info->envp);
+	else if (ft_strcmp(info->argv[0], "pwd"))
 		pwd();
-	else if (ft_strcmp(argv[0], "export"))
-		export(argv, envp);
-	else if (ft_strcmp(argv[0], "unset"))
-		unset(argv, envp);
-	else if (ft_strcmp(argv[0], "env"))
-		env(argv, *envp);
-	else if (ft_strcmp(argv[0], "exit"))
-		f_exit(argv);
+	else if (ft_strcmp(info->argv[0], "export"))
+		export(info->argv, &info->envp);
+	else if (ft_strcmp(info->argv[0], "unset"))
+		unset(info->argv, &info->envp);
+	else if (ft_strcmp(info->argv[0], "env"))
+		env(info->argv, info->envp);
+	else if (ft_strcmp(info->argv[0], "exit"))
+		f_exit(info->argv);
 	else
 		return (false);
 	return (true);

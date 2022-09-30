@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 19:35:25 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 12:53:27 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ static void	connectpath(char **argv0, char **ss)
 	}
 }
 
-void	in_child_do_cmd(char **argv, char ***envp)
+void	in_child_do_cmd(t_info *info)
 {
 	char	*path;
 	char	**ss;
 
-	if (!isbuiltin(argv, envp))
+	if (!isbuiltin(info))
 	{
 		path = getenv("PATH");
 		if (!path)
@@ -62,9 +62,9 @@ void	in_child_do_cmd(char **argv, char ***envp)
 		ss = ft_split(path, ':');
 		if (!ss)
 			terminate(0);
-		connectpath(&argv[0], ss);
+		connectpath(&info->argv[0], ss);
 		free2d(ss);
-		if (execve(argv[0], argv, *envp) == -1)
+		if (execve(info->argv[0], info->argv, info->envp) == -1)
 			;//cmd_err(argv[0]);//에러처리
 	}
 }
@@ -78,7 +78,7 @@ void	process(t_info *info)
 			e_close(info->fd[0]);//pipe 안열때? pipe 없을땐?
 		dup2(info->inputfd, 0);
 		dup2(info->fd[1], 1);
-		in_child_do_cmd(info->argv, &info->envp);
+		in_child_do_cmd(info);
 	}
 	else
 	{

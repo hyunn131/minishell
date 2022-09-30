@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 22:07:37 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 12:52:29 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	exec_cmd(char *str, t_info *info)
 			free(ss);
 			return ;
 		}
-		else if (info->cnt == 1 && isbuiltin(info->argv, &info->envp))
+		else if (info->cnt == 1 && isbuiltin(info))
 			continue ;
 		else
 		{
