@@ -6,11 +6,24 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 17:05:14 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 17:30:33 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_argv(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
+}
 
 void	ft_print_matrix(char **matrix)//
 {
@@ -224,27 +237,26 @@ void	matrix_free(char **matrix, int index)
 char	**remove_one_var(char **envp, int index)
 {
 	int	i;
+	int	j;
 	int	count;
 	char	**new;
 
-	i = 0;
+	i = -1;
 	count = ft_count_matrix(envp);
 	new = (char **)malloc(sizeof(char *) * count);
 	if (!new)
-		return (envp); 
+		terminate(0);
+	j = 0; 
 	while (++i < count)
 	{
 		if (i == index)
 			continue ;
-		new[i] = ft_calloc(ft_strlen(envp[i]) + 1, sizeof(char));
-		if (!new[i])
-		{
-			matrix_free(new, i);
-			return (envp);
-		}
-		ft_strlcpy(new[i], envp[i], ft_strlen(envp[i]));
+		new[j] = ft_strdup(envp[i]);
+		if (!new[j])
+			terminate(0);
+		j++;
 	}
-	matrix_free(envp, count);
+	free_argv(envp);
 	return (new);
 }
 
@@ -269,22 +281,22 @@ char	**unset_var(char *varname, char **envp)
 	return (new_envp);
 }
 
-int	unset(char **argv, char ***envp)
+int	unset(t_info *info)
 {
 	int	i;
 	int	invalid_flag;
 
 	i = 1;
 	invalid_flag = 0;
-	while (argv[i])
+	while (info->argv[i])
 	{
-		if (!check_env_name(argv[i]))
+		if (!check_env_name(info->argv[i]))
 		{
-			print_unset_invalid(argv[i]);
+			print_unset_invalid(info->argv[i]);
 			invalid_flag = 1;
 			continue ;
 		}
-		*envp = unset_var(argv[i], *envp);
+		info->envp = unset_var(info->argv[i], info->envp);
 		i++;
 	}
 	if (invalid_flag)
@@ -315,18 +327,6 @@ int	is_all_digit(char *str)
 	return (1);
 }
 
-void	free_argv(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-	{
-		free(argv[i]);
-		i++;
-	}
-	free(argv);
-}
 
 int	f_exit(char **argv)
 {
@@ -526,7 +526,7 @@ bool	isbuiltin(t_info *info) // 함수들 실패 시 리턴값
 	else if (ft_strcmp(info->argv[0], "export"))
 		info->exit_n = export(info);
 	else if (ft_strcmp(info->argv[0], "unset"))
-		info->exit_n = unset(info->argv, &info->envp);
+		info->exit_n = unset(info);
 	else if (ft_strcmp(info->argv[0], "env"))
 		info->exit_n = env(info);
 	else if (ft_strcmp(info->argv[0], "exit"))
