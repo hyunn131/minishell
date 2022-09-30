@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 18:40:49 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 20:27:50 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ bool	make_exec(char *str, int idx, t_info *info, char *buffer)
 		else
 			*buffer++ = str[i];
 	}
+	printf("flag[2]: %d\n", flag[2]);
 	return (flag[2]);
 }
 
@@ -96,6 +97,16 @@ void	pipecount(char *str, t_info *info)
 	info->cnt = j;
 }
 
+
+void	returning(t_info *info)
+{
+	free(info->lens);
+	if (info->fd[1] != 1)
+		close(info->fd[1]);
+	if (info->fd[0] != 0)
+		close(info->fd[0]);
+}
+
 bool	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
 {
 	char	*buffer;
@@ -113,6 +124,7 @@ bool	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
 	if (!make_exec(str, i, info, buffer))
 	{
 		free(buffer);
+		returning(info);
 		return (false);
 	}
 	dollar(&buffer, info);
@@ -134,13 +146,16 @@ void	exec_cmd(char *str, t_info *info)
 			return ;
 		if (!*(info->argv) && i != info->cnt)
 		{
+			returning(info);
 			syntex_err(&str[info->lens[i]]);
+			free2d(info->argv);
 			return ;
 		}
 		else if (!*(info->argv) && i == info->cnt)
 		{
 			ss = readline(">");
 			exec_cmd(ss, info);
+			free2d(info->argv);
 			free(ss);
 			return ;
 		}

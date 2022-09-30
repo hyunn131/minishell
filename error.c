@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:07:19 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 18:04:26 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 19:08:19 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	syntex_err(char *str)
 		ft_putstr_fd("<", 2);
 	else if (!ft_strncmp(str, "|", 1))
 		ft_putstr_fd("|", 2);
-	else if (!ft_strncmp(str, "\n", 1))
+	else if (!ft_strncmp(str, "\0", 1))
 		ft_putstr_fd("newline", 2);
 	ft_putendl_fd("'", 2);
 }

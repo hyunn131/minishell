@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 18:05:31 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 20:27:49 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ typedef struct s_info{
 	int		exit_n;
 }				t_info;
 
-
-void    free2d(char **ss);
-void    terminate(char *str);
-void    e_close(int fd);
-void    e_pipe(int *fd);
-pid_t	e_fork();
-bool    ft_strcmp(char *s1, char *s2);
+void	free2d(char **ss);
+void	terminate(char *str);
+void	e_close(int fd);
+void	e_pipe(int *fd);
+pid_t	e_fork(void);
+bool	ft_strcmp(char *s1, char *s2);
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 char	*joinpath(char *s1, char *s2);
@@ -68,10 +67,37 @@ void	*ft_memset(void *b, int c, size_t len);
 void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(char *str, t_info *info);
 void	syntex_err(char *str);
-
+void	free_argv(char **argv);
+void	print_echo_char(char *argv);
+void	print_echo(char **argv, int start);
+int		echo(t_info *info);
+char	*build_path(char **argv);
+void	change_pwd(t_info *info, char *new_path);
+void	change_old_pwd(t_info *info, char *old_path);
+int		cd(t_info *info);
+int		env(t_info *info);
 char	*working_directory(void);
+int		pwd(void);
+int		check_env_name(char *name);
+void	print_unset_invalid(char *varname);
+void	matrix_free(char **matrix, int index);
+char	**remove_one_var(char **envp, int index);
+char	**unset_var(char *varname, char **envp);
+int		unset(t_info *info);
+void	exit_error_message(char *message, char *non_numeric);
+int		is_all_digit(char *str);
+int		f_exit(char **argv);
+int		ft_strncmp_equalsign(char *s1, char *s2, int len);
+int		ft_count_matrix(char **envp);
+char	*ft_envp_copy(char **envp, int index);
+char	**new_added_envp(char *key_and_val, char **envp, int count);
+int		ft_strlen_key(char *key_and_val);
 char	**change_env(char *key_and_val, char **envp);
-int	ft_count_matrix(char **envp);
-int	ft_strncmp_equalsign(char *s1, char *s2, int len);
+int		ft_count_matrix(char **envp);
+int		ft_strncmp_equalsign(char *s1, char *s2, int len);
+void	print_export_invalid(char *varname);
+int		check_export_valid(char *argv);
+int		export(t_info *info);
+bool	isbuiltin(t_info *info);
 
 #endif
