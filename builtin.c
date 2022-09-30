@@ -6,19 +6,20 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:36:42 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 16:53:53 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(char *env_name)
+void	ft_print_matrix(char **matrix)//
 {
-	char	*envptr;
-
-	envptr = getenv(env_name);
-	if (envptr)
-		ft_putstr_fd(envptr, 1);
+	int	i = 0;
+	while (matrix[i])
+	{
+		printf("%d : %s\n", i, matrix[i]);
+		i++;
+	}
 }
 
 void	print_echo_char(char *argv)
@@ -127,22 +128,20 @@ int	cd(t_info *info)
 	return (0);
 }
 
-int	env(char **argv, char **envp)
+int	env(t_info *info)
 {
 	int	i;
-	if (argv[1])
+	if (info->argv[1])
 	{
 		ft_putstr_fd("env: '", 2);
-		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(info->argv[1], 2);
 		ft_putstr_fd("' : Permission Denied\n", 2);
 		return (1);
 	}
 	i = 0;
-	while(envp[i])
+	while(info->envp[i])
 	{
-		if (!envp[i][0])
-			break ;
-		ft_putstr_fd(envp[i], 1);
+		ft_putstr_fd(info->envp[i], 1);
 		write(1, "\n", 1);
 		i++;
 	}
@@ -392,10 +391,10 @@ char	*ft_envp_copy(char **envp, int index)
 	int		len;
 
 	len = ft_strlen(envp[index]);
-	tmp = (char *)malloc(sizeof(char) * len + 1);
+	tmp = (char *)malloc(sizeof(char) * (len + 1));
 	if (!tmp)
 		return (0);
-	ft_strlcpy(tmp, envp[index], len);
+	ft_strlcpy(tmp, envp[index], len + 1);
 	return (tmp);
 }
 
@@ -404,7 +403,7 @@ char	**new_added_envp(char *key_and_val, char **envp, int count)
 	char	**tmp;
 	int		i;
 
-	tmp = (char **)malloc(sizeof(char *) * count + 2);
+	tmp = (char **)malloc(sizeof(char *) * (count + 2));
 	if (!tmp)
 		return (0);
 	i = 0;
@@ -412,18 +411,12 @@ char	**new_added_envp(char *key_and_val, char **envp, int count)
 	{
 		tmp[i] = ft_envp_copy(envp, i);
 		if (!tmp[i])
-		{
-			matrix_free(tmp, i);
 			return (0);
-		}
 		i++;
 	}
 	tmp[i] = ft_strdup(key_and_val);
 	if (!tmp[i])
-	{
-		matrix_free(tmp, i);
-		return (0);
-	}
+			return (0);
 	tmp[i + 1] = NULL;
 	return (tmp);
 }
@@ -488,7 +481,7 @@ int	check_export_valid(char *argv)
 	return (1);
 }
 
-int	export(char **argv, char ***envp)
+int	export(t_info *info)
 {
 	int	i;
 	int	count;
@@ -496,19 +489,19 @@ int	export(char **argv, char ***envp)
 
 	i = 0;
 	invalid_flag = 0;
-	count = ft_count_matrix(argv);
+	count = ft_count_matrix(info->argv);
 	while (++i < count)
 	{
-		if (!ft_strchr(argv[i], '='))
+		if (!ft_strchr(info->argv[i], '='))
 			continue ;
-		if (!check_export_valid(argv[i]))
+		if (!check_export_valid(info->argv[i]))
 		{
-			print_export_invalid(argv[i]);
+			print_export_invalid(info->argv[i]);
 			invalid_flag = 1;
 			continue ;
 		}
-		*envp = change_env(argv[i], *envp);
-		if (!(*envp))
+		info->envp = change_env(info->argv[i], info->envp);
+		if (!(info->envp))
 			terminate(0);
 	}
 	if (invalid_flag)
@@ -525,11 +518,11 @@ bool	isbuiltin(t_info *info) // 함수들 실패 시 리턴값
 	else if (ft_strcmp(info->argv[0], "pwd"))
 		info->exit_n = pwd();
 	else if (ft_strcmp(info->argv[0], "export"))
-		info->exit_n = export(info->argv, &info->envp);
+		info->exit_n = export(info);
 	else if (ft_strcmp(info->argv[0], "unset"))
 		info->exit_n = unset(info->argv, &info->envp);
 	else if (ft_strcmp(info->argv[0], "env"))
-		info->exit_n = env(info->argv, info->envp);
+		info->exit_n = env(info);
 	else if (ft_strcmp(info->argv[0], "exit"))
 		info->exit_n = f_exit(info->argv);
 	else
