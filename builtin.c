@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 17:30:33 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 17:44:26 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,6 @@ void	free_argv(char **argv)
 		i++;
 	}
 	free(argv);
-}
-
-void	ft_print_matrix(char **matrix)//
-{
-	int	i = 0;
-	while (matrix[i])
-	{
-		printf("%d : %s\n", i, matrix[i]);
-		i++;
-	}
 }
 
 void	print_echo_char(char *argv)
@@ -515,7 +505,7 @@ int	export(t_info *info)
 	return (0);
 }
 
-bool	isbuiltin(t_info *info) // 함수들 실패 시 리턴값
+bool	isbuiltin(t_info *info)
 {
 	if (ft_strcmp(info->argv[0], "echo"))
 		info->exit_n = echo(info);
