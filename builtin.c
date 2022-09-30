@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 16:53:53 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 17:05:14 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,31 @@ char	*build_path(char **argv)
 	return (result);
 }
 
-void	change_pwd(char ***envp, char *new_path)
+void	change_pwd(t_info *info, char *new_path)
 {
 	char	*new_env;
 
 	new_env = ft_strjoin("PWD=", new_path);
 	if (!new_env)
 		terminate(0);
-	*envp = change_env(new_env, *envp);
+	free(new_path);
+	info->envp = change_env(new_env, info->envp);
+	if (!(info->envp))
+		terminate(0);
 	free(new_env);
 }
 
-void	change_old_pwd(char ***envp, char *old_path)
+void	change_old_pwd(t_info *info, char *old_path)
 {
 	char	*new_env;
 
 	new_env = ft_strjoin("OLDPWD=", old_path);
 	if (!new_env)
 		terminate(0);
-	*envp = change_env(new_env, *envp);
+	free(old_path);
+	info->envp = change_env(new_env, info->envp);
+	if (!(info->envp))
+		terminate(0);
 	free(new_env);
 }
 
@@ -113,9 +119,10 @@ int	cd(t_info *info)
 	new_path = build_path(info->argv);
 	if (!chdir(new_path))
 	{
-		// change_pwd(envp, new_path);
-		// change_old_pwd(envp, old_path);
-		printf("%s\n", info->envp[0]);
+		free(new_path);
+		new_path = working_directory();
+		change_pwd(info, new_path);
+		change_old_pwd(info, old_path);
 	}
 	else
 	{
@@ -124,7 +131,6 @@ int	cd(t_info *info)
 		ft_putstr_fd("\n", 2);
 		return (1);
 	}
-	free(old_path);
 	return (0);
 }
 
