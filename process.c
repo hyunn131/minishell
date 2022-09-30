@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 14:10:46 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 21:41:01 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ void	in_child_do_cmd(t_info *info)
 		connectpath(&info->argv[0], ss);
 		free2d(ss);
 		if (execve(info->argv[0], info->argv, info->envp) == -1)
-			;//cmd_err(argv[0]);//에러처리
+			cmd_err(info->argv[0]);
 	}
+	exit(info->exit_n);
 }
 
 void	process(t_info *info)
@@ -75,7 +76,7 @@ void	process(t_info *info)
 	if (info->pid == 0)
 	{
 		if (info->fd[0] != 0)
-			e_close(info->fd[0]);//pipe 안열때? pipe 없을땐?
+			e_close(info->fd[0]);
 		dup2(info->inputfd, 0);
 		dup2(info->fd[1], 1);
 		in_child_do_cmd(info);

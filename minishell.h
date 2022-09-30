@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 20:27:49 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 21:13:29 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void	*ft_memset(void *b, int c, size_t len);
 void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(char *str, t_info *info);
 void	syntex_err(char *str);
+void	returning(t_info *info);
+bool	func(t_info *info, int i, char *str);
+void	cmd_err(char *cmd);
 void	free_argv(char **argv);
 void	print_echo_char(char *argv);
 void	print_echo(char **argv, int start);

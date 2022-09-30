@@ -6,16 +6,21 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:23:51 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 22:40:35 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	sig_handler(int sig)
+static void	sig_handler(int sig)//보류
 {
-	if (sig==SIGTERM)
-		printf("ajielkej\n");
+	if (sig==SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
 }
 
 void	init_info(t_info *info, char **envp)
@@ -48,13 +53,15 @@ int	main(int argc, char **argv, char **envp)
 		;
 	if (argc != 1)
 		return (1);
-	//signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, sig_handler);
 	init_info(&info, envp);
 	while (1)
 	{
 		s = readline(">");
+		if (!s)
+			exit (0);
+		add_history(s);
 		exec_cmd(s, &info);
 	}
 	free2d(info.envp);

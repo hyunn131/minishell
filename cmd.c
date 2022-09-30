@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 20:27:50 by docho            ###   ########.fr       */
+/*   Updated: 2022/09/30 21:44:04 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool	make_exec(char *str, int idx, t_info *info, char *buffer)
 		else
 			*buffer++ = str[i];
 	}
-	printf("flag[2]: %d\n", flag[2]);
+	// printf("flag[2]: %d\n", flag[2]);
 	return (flag[2]);
 }
 
@@ -95,16 +95,6 @@ void	pipecount(char *str, t_info *info)
 	}
 	info->lens[j] = i;
 	info->cnt = j;
-}
-
-
-void	returning(t_info *info)
-{
-	free(info->lens);
-	if (info->fd[1] != 1)
-		close(info->fd[1]);
-	if (info->fd[0] != 0)
-		close(info->fd[0]);
 }
 
 bool	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
@@ -136,36 +126,22 @@ bool	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
 void	exec_cmd(char *str, t_info *info)
 {
 	int		i;
-	char	*ss;
 
+	if (!str)
+		return ;
 	pipecount(str, info);
 	i = 0;
 	while (++i <= info->cnt)
 	{
-		if (!iofd(str, i, info))
+		if (!iofd(str, i, info) || !func(info, i, str))
 			return ;
-		if (!*(info->argv) && i != info->cnt)
-		{
-			returning(info);
-			syntex_err(&str[info->lens[i]]);
-			free2d(info->argv);
-			return ;
-		}
-		else if (!*(info->argv) && i == info->cnt)
-		{
-			ss = readline(">");
-			exec_cmd(ss, info);
-			free2d(info->argv);
-			free(ss);
-			return ;
-		}
-		else if (info->cnt == 1 && isbuiltin(info))
+		if (info->cnt == 1 && isbuiltin(info))
 			return ;
 		else
 		{
-			printf("argv---------------------\n");
-			for (int i = 0; info->argv[i]; ++i)
-				printf("argv[%d]: %s\n", i, info->argv[i]);
+			// printf("argv---------------------\n");
+			// for (int i = 0; info->argv[i]; ++i)
+			// 	printf("argv[%d]: %s\n", i, info->argv[i]);
 			process(info);
 		}
 		free2d(info->argv);
