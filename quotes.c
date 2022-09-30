@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 05:26:55 by docho             #+#    #+#             */
-/*   Updated: 2022/09/29 23:27:58 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/09/30 15:29:19 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,54 +51,38 @@ void	counting(char *buffer, int *cnt)
 	}
 }
 
-void	fills2(char *buffer, int *pi)
-{
-	int		i;
-	char	c;
-
-	i = *pi;
-	while (buffer[i] != ' ' && buffer[i])
-	{
-		if (buffer[i] == '\"' || buffer[i] == '\'')
-		{
-			c = buffer[i];
-			while (buffer[++i] != c)
-				;
-		}
-		i++;
-	}
-	*pi = i;
-}
-
 void	fills(char *buffer, t_info *info)
 {
 	int		i;
-	int		flag;
 	int		start;
 	int		num;
 
+	start = -1;
 	i = -1;
-	flag = 0;
-	start = 0;
 	num = 0;
 	while (buffer[++i])
 	{
-		while (buffer[i] == ' ')
-			i++;
-		start = i;
-		fills2(buffer, &i);
-		if (start == i)
-			break ;
-		info->argv[num++] = ft_substr2(buffer, start, i - start);
+		if (buffer[i] == ' ')
+		{
+			if (start != -1)
+				info->argv[num++] = ft_substr2(buffer, start, i - start);
+			start = -1;
+		}
+		else
+		{
+			if (start == -1)
+				start = i;
+			counting2(buffer, &i);
+		}
 	}
+	if (start != -1)
+		info->argv[num++] = ft_substr2(buffer, start, i - start);
 }
 
 void	splits(char *buffer, t_info *info)
 {
 	int	cnt;
 
-	if (info || buffer)
-		;
 	cnt = 0;
 	counting(buffer, &cnt);
 	info->argv = ft_calloc(cnt + 1, sizeof(char *));
