@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:13:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 18:46:44 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/02 23:31:10 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	isbuiltin(t_info *info)
 	else if (ft_strcmp(info->argv[0], "cd"))
 		info->exit_n = cd(info);
 	else if (ft_strcmp(info->argv[0], "pwd"))
-		info->exit_n = pwd();
+		info->exit_n = pwd(info);
 	else if (ft_strcmp(info->argv[0], "export"))
 		info->exit_n = export(info);
 	else if (ft_strcmp(info->argv[0], "unset"))

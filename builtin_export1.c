@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 18:00:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/09/30 18:02:47 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 02:41:02 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**change_env(char *key_and_val, char **envp)
 
 int	check_export_valid(char *argv)
 {
-	if (ft_isdigit(*argv))
+	if (ft_isdigit(*argv) || (*argv == '='))
 		return (0);
 	while ((*argv) && (*argv != '='))
 	{
@@ -95,14 +95,14 @@ int	export(t_info *info)
 	count = ft_count_matrix(info->argv);
 	while (++i < count)
 	{
-		if (!ft_strchr(info->argv[i], '='))
-			continue ;
 		if (!check_export_valid(info->argv[i]))
 		{
 			print_export_invalid(info->argv[i]);
 			invalid_flag = 1;
 			continue ;
 		}
+		if (!ft_strchr(info->argv[i], '='))
+			continue ;
 		info->envp = change_env(info->argv[i], info->envp);
 		if (!(info->envp))
 			terminate(0);

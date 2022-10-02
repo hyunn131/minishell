@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 18:01:06 by junhkim           #+#    #+#             */
-/*   Updated: 2022/09/30 18:01:07 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 02:02:58 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	unset(t_info *info)
 		{
 			print_unset_invalid(info->argv[i]);
 			invalid_flag = 1;
+			i++;
 			continue ;
 		}
 		info->envp = unset_var(info->argv[i], info->envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 18:00:39 by junhkim           #+#    #+#             */
-/*   Updated: 2022/09/30 18:00:40 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 02:17:12 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,11 @@ int	f_exit(char **argv)
 		return (1);
 	}
 	else if (count == 2)
-	{
 		i = ft_atoi(argv[1]);
-		exit(i);
-	}
 	else
-		exit(0);
+		i = 0;
+	printf("exit\n");
+	exit(i);
 }
 
 void	exit_error_message(char *message, char *non_numeric)

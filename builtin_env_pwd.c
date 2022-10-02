@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_pwd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 18:00:30 by junhkim           #+#    #+#             */
-/*   Updated: 2022/09/30 18:02:32 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 00:45:37 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	env(t_info *info)
 
 	if (info->argv[1])
 	{
-		ft_putstr_fd("env: '", 2);
+		ft_putstr_fd("bash: env: '", 2);
 		ft_putstr_fd(info->argv[1], 2);
 		ft_putstr_fd("' : Permission Denied\n", 2);
 		return (1);
@@ -26,8 +26,8 @@ int	env(t_info *info)
 	i = 0;
 	while (info->envp[i])
 	{
-		ft_putstr_fd(info->envp[i], 1);
-		write(1, "\n", 1);
+		ft_putstr_fd(info->envp[i], info->fd[1]);
+		write(1, "\n", info->fd[1]);
 		i++;
 	}
 	return (0);
@@ -71,12 +71,12 @@ char	*working_directory(void)
 	return (buf);
 }
 
-int	pwd(void)
+int	pwd(t_info *info)
 {
 	char	*buf;
 
 	buf = working_directory();
-	ft_putstr_fd(buf, 1);
+	ft_putstr_fd(buf, info->fd[1]);
 	write(1, "\n", 1);
 	free(buf);
 	return (0);

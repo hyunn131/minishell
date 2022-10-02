@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/10/02 23:23:02 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/02 23:30:44 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	returning(t_info *info);
 bool	func(t_info *info, int i, char *str);
 void	cmd_err(char *cmd);
 void	free_argv(char **argv);
-void	print_echo_char(char *argv);
-void	print_echo(char **argv, int start);
+void	print_echo_char(char *argv, int fd);
+void	print_echo(char **argv, int start, int fd);
 int		echo(t_info *info);
 char	*build_path(char **argv);
 void	change_pwd(t_info *info, char *new_path);
@@ -80,7 +80,7 @@ void	change_old_pwd(t_info *info, char *old_path);
 int		cd(t_info *info);
 int		env(t_info *info);
 char	*working_directory(void);
-int		pwd(void);
+int		pwd(t_info *info);
 int		check_env_name(char *name);
 void	print_unset_invalid(char *varname);
 void	matrix_free(char **matrix, int index);
