@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 22:40:35 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/02 23:22:40 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	sig_handler(int sig)//보류
 {
-	if (sig==SIGINT)
+	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 1);
+//		rl_replace_line("", 1);
 		rl_redisplay();
 	}
 }
@@ -46,7 +46,7 @@ void	init_info(t_info *info, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char 	*s;
+	char	*s;
 	t_info	info;
 
 	if (argv)

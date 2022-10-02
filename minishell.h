@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 21:13:29 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/02 23:23:02 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
 char	*joinpath(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
-void    process(t_info *info);
-int     e_wait(pid_t pid);
-bool    input(char *filename, int *fd);
+void	process(t_info *info);
+int		e_wait(pid_t pid);
+bool	input(char *filename, int *fd);
 bool	output(char *filename, int *fd);
 bool	append(char *filename, int *fd);
 bool	here_doc(char *limiter, int *fd);

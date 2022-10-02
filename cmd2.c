@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 20:50:54 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 21:37:27 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/02 23:21:11 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ void	returning(t_info *info)
 		close(info->fd[0]);
 }
 
-bool    func(t_info *info, int i, char *str)
+bool	func(t_info *info, int i, char *str)
 {
-	char    *ss;
+	char	*ss;
+
 	if (!*(info->argv) && i != info->cnt)
 	{
 		returning(info);

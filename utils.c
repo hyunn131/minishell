@@ -6,13 +6,13 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:49:14 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 18:05:13 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/02 23:24:09 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    *ft_getenv(char *str, t_info *info)
+char	*ft_getenv(char *str, t_info *info)
 {
 	int	i;
 	int	len;
@@ -32,7 +32,7 @@ void	free2d(char **ss)
 	int	i;
 
 	if (!ss)
-		return;
+		return ;
 	i = -1;
 	while (ss[++i])
 		free(ss[i]);
@@ -44,9 +44,9 @@ bool	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = -1;
-	while(s1[++i])
+	while (s1[++i])
 	{
-		if(s1[i] != s2[i])
+		if (s1[i] != s2[i])
 			break ;
 	}
 	if (s1[i] == '\0' && s2[i] == '\0')

@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 21:44:04 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/02 23:20:06 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*make_filename(char *str, int *i, t_info *info)
 	dollar(&filename, info);
 	tmp = ft_substr2(filename, 0, ft_strlen(filename));
 	free(filename);
-	filename = tmp;	
+	filename = tmp;
 	return (filename);
 }
 
