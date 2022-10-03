@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 21:16:20 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/03 21:19:10 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	connectpath(char **argv0, char **ss)
 	{
 		dptr = opendir(ss[i]);
 		if (!dptr)
-			terminate(0);
+			continue ;
 		errno = 0;
 		dir = readdir(dptr);
 		while (dir != NULL)
