@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 13:49:49 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 21:11:40 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*ft_calloc(size_t count, size_t size);
 char	*joinpath(char *s1, char *s2);
 char	**ft_split(char const *s, char c);
 void	process(t_info *info);
-int		e_wait(pid_t pid);
+int		e_wait(t_info *info);
 bool	input(char *filename, int *fd);
 bool	output(char *filename, int *fd);
 bool	append(char *filename, int *fd);
@@ -106,5 +106,6 @@ bool	isbuiltin(t_info *info);
 char	*ft_getenv(char *str, t_info *info);
 void	echoctl_flag_off(void);
 void	echoctl_flag_on(void);
+void	sig_handler(int sig);
 
 #endif

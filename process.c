@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 15:19:28 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/03 21:16:20 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	in_child_do_cmd(t_info *info)
 
 	if (!isbuiltin(info))
 	{
-		path = getenv("PATH"); // ft_getenv 안 써도 될까요
+		path = ft_getenv("PATH", info);
 		if (!path)
 			terminate(0);
 		ss = ft_split(path, ':');
@@ -70,6 +70,22 @@ void	in_child_do_cmd(t_info *info)
 	exit(info->exit_n);
 }
 
+void	sig_handler2(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 1);
+		printf(">");
+	}
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 1);
+		printf(">");
+	}
+}
+
 void	process(t_info *info)
 {
 	info->pid = e_fork();
@@ -80,6 +96,7 @@ void	process(t_info *info)
 			e_close(info->fd[0]);
 		dup2(info->inputfd, 0);
 		dup2(info->fd[1], 1);
+
 		in_child_do_cmd(info);
 	}
 	else
@@ -92,19 +109,19 @@ void	process(t_info *info)
 	}
 }
 
-int	e_wait(pid_t pid)
+int	e_wait(t_info *info)
 {
 	int		status;
 	pid_t	w_pid;
 
-	if (pid == 0)
-		return (1);
-	w_pid = waitpid(pid, &status, 0);
+	w_pid = waitpid(info->pid, &status, 0);
 	if (w_pid == -1)
 		terminate(0);
 	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));//정상종료 안될 시 리턴 값 없는데 어떻게 할 건지 malloc 처리하거나, 8비트 이상의 값을 리턴하거나(257)
-	//if (WIFSIGNALED(status))
-	//	WTERMSIG(status);
-	return (1 << 8);
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		return (128 + WTERMSIG(status));
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 18:49:14 by docho             #+#    #+#             */
-/*   Updated: 2022/10/02 23:24:09 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 21:16:13 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ char	*ft_getenv(char *str, t_info *info)
 	int	len;
 
 	i = -1;
-	len = ft_strlen(str) + 1;
+	len = ft_strlen(str);
 	while (info->envp[++i])
 	{
-		if (!ft_strncmp_equalsign(info->envp[i], str, len))
-			return (&(info->envp[i])[len]);
+		if (!ft_strncmp(info->envp[i], str, len) && info->envp[i][len] == '=')
+			return (&(info->envp[i])[len + 1]);
 	}
 	return (0);
 }

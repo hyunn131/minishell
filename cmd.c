@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 14:59:28 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/03 21:11:33 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	pipecount(char *str, t_info *info)
 	}
 	info->lens[j] = i;
 	info->cnt = j;
+	
 }
 
 bool	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
@@ -146,5 +147,6 @@ void	exec_cmd(char *str, t_info *info)
 		}
 		free2d(info->argv);
 	}
-	info->exit_n = e_wait(info->pid);
+	returning(info);
+	info->exit_n = e_wait(info);
 }

@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 20:50:54 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 15:18:56 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/03 21:17:03 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	func(t_info *info, int i, char *str)
 	{
 		returning(info);
 		free2d(info->argv);
-		ss = readline(">");
+		ss = readline("> ");
 		exec_cmd(ss, info);
 		free(ss);
 		return (false);

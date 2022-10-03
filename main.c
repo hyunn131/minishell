@@ -6,19 +6,33 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 15:19:44 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/03 21:16:58 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	sig_handler(int sig)//보류
+void	sig_handler(int sig)
 {
+	pid_t	pid;
+	
+	pid = waitpid(-1, 0, WNOHANG);
 	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_replace_line("", 1);
-		printf(">");
+		if (pid == -1)
+			printf("minishell$ ");
+	}
+	if (sig == SIGQUIT)
+	{
+		if (pid != -1)
+			ft_putendl_fd("Quit: 3", 2);
+		else
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
 }
 
@@ -99,12 +113,12 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || !argv)
 		return (1);
 	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sig_handler);
 	init_info(&info, envp);
 	while (1)
 	{
 		echoctl_flag_off();
-		s = readline(">");
+		s = readline("minishell$ ");
 		if (!s)
 		{
 			ft_putstr_fd("\033[A\033[C exit\n", 1);
@@ -113,7 +127,6 @@ int	main(int argc, char **argv, char **envp)
 		add_history(s);
 		exec_cmd(s, &info);
 		free(s);
-		printf("exec_cmd ok\n");
 	}
 	free2d(info.envp);
 	return (0);
