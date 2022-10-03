@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/10/02 23:22:40 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 13:15:50 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	sig_handler(int sig)//보류
 	{
 		printf("\n");
 		rl_on_new_line();
-//		rl_replace_line("", 1);
+		rl_replace_line("", 1); //왜 컴파일이 안 되는지 모르겠습니다
 		rl_redisplay();
 	}
 }
@@ -41,7 +41,31 @@ void	init_info(t_info *info, char **envp)
 		if (!(info->envp)[i])
 			terminate(0);
 	}
-	info->exit_n = 1;
+	info->exit_n = 0;
+}
+
+void	echoctl_flag_off(void)
+{
+	struct termios	attr;
+
+	if (isatty(STDIN_FILENO))
+	{
+		tcgetattr(STDIN_FILENO, &attr);
+		attr.c_lflag &= ~ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	}
+	else if (isatty(STDOUT_FILENO))
+	{
+		tcgetattr(STDOUT_FILENO, &attr);
+		attr.c_lflag &= ~ECHOCTL;
+		tcsetattr(STDOUT_FILENO, TCSANOW, &attr);
+	}
+	else if (isatty(STDERR_FILENO))
+	{
+		tcgetattr(STDERR_FILENO, &attr);
+		attr.c_lflag &= ~ECHOCTL;
+		tcsetattr(STDERR_FILENO, TCSANOW, &attr);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -55,12 +79,16 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
+	echoctl_flag_off();
 	init_info(&info, envp);
 	while (1)
 	{
 		s = readline(">");
 		if (!s)
+		{
+			ft_putstr_fd("exit\n", 1);
 			exit (0);
+		}
 		add_history(s);
 		exec_cmd(s, &info);
 	}

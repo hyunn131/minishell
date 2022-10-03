@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:38:48 by docho             #+#    #+#             */
-/*   Updated: 2022/09/30 13:25:56 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/03 10:43:07 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	new_buffer(char **pbuffer, int start, int i, t_info *info)
 		i = start + 2;
 	}
 	else
-		env = getenv(tmp);
+		env = getenv(tmp); // 이렇게 해도 괜찮을까요
 	free(tmp);
 	s1 = ft_substr(*pbuffer, 0, start);
 	s2 = ft_strjoin2(s1, env);

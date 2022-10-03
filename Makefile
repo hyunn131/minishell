@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: docho <docho@student.42.fr>                +#+  +:+       +#+         #
+#    By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 16:14:31 by docho             #+#    #+#              #
-#    Updated: 2022/10/02 22:43:09 by junhkim          ###   ########.fr        #
+#    Updated: 2022/10/03 12:05:50 by junhkim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIB = -lft -L./libft
-RFLAGS = -lreadline -L/Users/docho/.brew/opt/readline/lib
-IFLAGS = -I/Users/docho/.brew/opt/readline/include
+RFLAGS = -lreadline -L/Users/junhkim/.brew/opt/readline/lib
+IFLAGS = -I/Users/junhkim/.brew/opt/readline/include
 SRCS = cmd.c process.c builtin.c error.c io.c cmd2.c \
 	utils.c ft_putstr_fd.c quotes.c dollar.c main.c \
 	builtin_cd.c builtin_echo.c builtin_env_pwd.c builtin_exit.c \

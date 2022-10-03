@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/10/02 23:30:44 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 13:09:31 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include "./libft/libft.h"
+# include <termios.h>
 
 typedef struct s_info{
 	char	**argv;
@@ -69,7 +70,7 @@ void	exec_cmd(char *str, t_info *info);
 void	syntex_err(char *str);
 void	returning(t_info *info);
 bool	func(t_info *info, int i, char *str);
-void	cmd_err(char *cmd);
+void	cmd_err(char *cmd, t_info *info);
 void	free_argv(char **argv);
 void	print_echo_char(char *argv, int fd);
 void	print_echo(char **argv, int start, int fd);
@@ -102,5 +103,6 @@ void	print_export_invalid(char *varname);
 int		check_export_valid(char *argv);
 int		export(t_info *info);
 bool	isbuiltin(t_info *info);
+char	*ft_getenv(char *str, t_info *info);
 
 #endif
