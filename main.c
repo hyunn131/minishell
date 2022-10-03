@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 13:15:50 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 13:45:30 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,30 @@ void	echoctl_flag_off(void)
 	{
 		tcgetattr(STDERR_FILENO, &attr);
 		attr.c_lflag &= ~ECHOCTL;
+		tcsetattr(STDERR_FILENO, TCSANOW, &attr);
+	}
+}
+
+void	echoctl_flag_on(void)
+{
+	struct termios	attr;
+
+	if (isatty(STDIN_FILENO))
+	{
+		tcgetattr(STDIN_FILENO, &attr);
+		attr.c_lflag |= ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &attr);
+	}
+	else if (isatty(STDOUT_FILENO))
+	{
+		tcgetattr(STDOUT_FILENO, &attr);
+		attr.c_lflag |= ECHOCTL;
+		tcsetattr(STDOUT_FILENO, TCSANOW, &attr);
+	}
+	else if (isatty(STDERR_FILENO))
+	{
+		tcgetattr(STDERR_FILENO, &attr);
+		attr.c_lflag |= ECHOCTL;
 		tcsetattr(STDERR_FILENO, TCSANOW, &attr);
 	}
 }

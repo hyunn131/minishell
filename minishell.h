@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 13:09:31 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 13:49:49 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,7 @@ int		check_export_valid(char *argv);
 int		export(t_info *info);
 bool	isbuiltin(t_info *info);
 char	*ft_getenv(char *str, t_info *info);
+void	echoctl_flag_off(void);
+void	echoctl_flag_on(void);
 
 #endif
