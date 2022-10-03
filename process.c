@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 13:49:08 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 15:19:28 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	process(t_info *info)
 	info->pid = e_fork();
 	if (info->pid == 0)
 	{
+		echoctl_flag_on();
 		if (info->fd[0] != 0)
 			e_close(info->fd[0]);
 		dup2(info->inputfd, 0);

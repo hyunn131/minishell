@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 13:45:30 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 15:19:44 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@ static void	sig_handler(int sig)//보류
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 1); //왜 컴파일이 안 되는지 모르겠습니다
-		rl_redisplay();
+		rl_replace_line("", 1);
+		printf(">");
 	}
 }
 
@@ -97,24 +96,24 @@ int	main(int argc, char **argv, char **envp)
 	char	*s;
 	t_info	info;
 
-	if (argv)
-		;
-	if (argc != 1)
+	if (argc != 1 || !argv)
 		return (1);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
-	echoctl_flag_off();
 	init_info(&info, envp);
 	while (1)
 	{
+		echoctl_flag_off();
 		s = readline(">");
 		if (!s)
 		{
-			ft_putstr_fd("exit\n", 1);
+			ft_putstr_fd("\033[A\033[C exit\n", 1);
 			exit (0);
 		}
 		add_history(s);
 		exec_cmd(s, &info);
+		free(s);
+		printf("exec_cmd ok\n");
 	}
 	free2d(info.envp);
 	return (0);

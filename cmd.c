@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 13:50:39 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 14:59:28 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	exec_cmd(char *str, t_info *info)
 {
 	int		i;
 
-	if (!str)
+	if (!*str)
 		return ;
 	pipecount(str, info);
 	i = 0;
@@ -139,9 +139,9 @@ void	exec_cmd(char *str, t_info *info)
 			return ;
 		else
 		{
-			// printf("argv---------------------\n");
-			// for (int i = 0; info->argv[i]; ++i)
-			// 	printf("argv[%d]: %s\n", i, info->argv[i]);
+			printf("argv---------------------\n");
+			for (int i = 0; info->argv[i]; ++i)
+				printf("argv[%d]: %s\n", i, info->argv[i]);
 			process(info);
 		}
 		free2d(info->argv);

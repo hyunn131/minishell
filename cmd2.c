@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 20:50:54 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 10:09:44 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/03 15:18:56 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ bool	func(t_info *info, int i, char *str)
 	}
 	else if (!*(info->argv) && i == info->cnt)
 	{
+		returning(info);
+		free2d(info->argv);
 		ss = readline(">");
 		exec_cmd(ss, info);
-		free2d(info->argv);
 		free(ss);
 		return (false);
 	}
