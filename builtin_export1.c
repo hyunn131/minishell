@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 18:00:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/03 02:41:02 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/04 15:34:59 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**change_env(char *key_and_val, char **envp)
 			continue ;
 		tmp = ft_strdup(key_and_val);
 		if (!tmp)
-			return (0);
+			terminate(0);
 		free(envp[i]);
 		envp[i] = tmp;
 		return (envp);
@@ -59,7 +59,7 @@ char	**change_env(char *key_and_val, char **envp)
 	envp_count = ft_count_matrix(envp);
 	new_envp = new_added_envp(key_and_val, envp, envp_count);
 	if (!new_envp)
-		return (0);
+		terminate(0);
 	free_argv(envp);
 	return (new_envp);
 }
@@ -84,6 +84,90 @@ void	print_export_invalid(char *varname)
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }
 
+void	ft_put_envp_with_qou_fd(char *arr, int fd)
+{
+	int	flag;
+	int	i;
+	int	len;
+
+	i = -1;
+	flag = 0;
+	len = ft_strlen(arr);
+	while (++i < len)
+	{
+		if (!flag && arr[i] == '=')
+		{
+			flag ^= 1;
+			ft_putstr_fd("=\"", fd);
+			continue ;
+		}
+		ft_putchar_fd(arr[i], fd);
+	}
+	ft_putstr_fd("\"\n", fd);
+}
+
+char	**ft_dup_matrix(char **arr)
+{
+	int		len;
+	int		i;
+	char	**res;
+
+	len = 0;
+	while (arr[len])
+		len++;
+	res = ft_calloc(len + 1, sizeof(char *));
+	if (!res)
+		terminate(0);
+	i = -1;
+	while (arr[++i])
+	{
+		res[i] = ft_strdup(arr[i]);
+		if (!(res)[i])
+			terminate(0);
+	}
+	return (res);
+}
+
+void	ft_sort_matrix(char **arr, int len)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = -1;
+	while (++i < len)
+	{
+		j = i;
+		while (++j < len)
+		{
+			if (ft_strncmp(arr[i], arr[j], ft_strlen(arr[i])) > 0)
+			{
+				tmp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = tmp;
+			}
+		}
+	}
+}
+
+void	sort_and_print(char **envp, int fd)
+{
+	int		i;
+	int		len;
+	char	**arr;
+
+	len = ft_count_matrix(envp);
+	arr = ft_dup_matrix(envp);
+	ft_sort_matrix(arr, len);
+	i = -1;
+	while (arr[++i])
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_put_envp_with_qou_fd(arr[i], fd);
+	}
+	free2d(arr);
+}
+
 int	export(t_info *info)
 {
 	int	i;
@@ -104,10 +188,10 @@ int	export(t_info *info)
 		if (!ft_strchr(info->argv[i], '='))
 			continue ;
 		info->envp = change_env(info->argv[i], info->envp);
-		if (!(info->envp))
-			terminate(0);
 	}
 	if (invalid_flag)
 		return (1);
+	if (count == 1)
+		sort_and_print(info->envp, info->fd[1]);
 	return (0);
 }

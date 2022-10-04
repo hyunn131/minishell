@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 16:41:46 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 21:29:03 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/04 14:38:46 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sig_handler(int sig)
 {
 	pid_t	pid;
-	
+
 	pid = waitpid(-1, 0, WNOHANG);
 	if (sig == SIGINT)
 	{

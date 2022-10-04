@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 17:38:48 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 21:16:18 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/04 14:39:21 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	new_buffer(char **pbuffer, int start, int i, t_info *info)
 		i = start + 2;
 	}
 	else
-		env = ft_getenv(tmp, info); // 이렇게 해도 괜찮을까요
+		env = ft_getenv(tmp, info);
 	free(tmp);
 	s1 = ft_substr(*pbuffer, 0, start);
 	s2 = ft_strjoin2(s1, env);

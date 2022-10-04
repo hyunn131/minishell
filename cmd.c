@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 21:11:33 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/04 14:40:36 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ bool	make_exec(char *str, int idx, t_info *info, char *buffer)
 		else
 			*buffer++ = str[i];
 	}
-	// printf("flag[2]: %d\n", flag[2]);
 	return (flag[2]);
 }
 
@@ -95,10 +94,9 @@ void	pipecount(char *str, t_info *info)
 	}
 	info->lens[j] = i;
 	info->cnt = j;
-	
 }
 
-bool	iofd(char *str, int i, t_info *info)// > (공백 나오는 경우)
+bool	iofd(char *str, int i, t_info *info)
 {
 	char	*buffer;
 
