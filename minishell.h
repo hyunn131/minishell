@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/10/04 16:07:30 by junhkim          ###   ########.fr       */
+/*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
+/*   Updated: 2022/10/04 17:59:33 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	free_argv(char **argv);
 void	print_echo_char(char *argv, int fd);
 void	print_echo(char **argv, int start, int fd);
 int		echo(t_info *info);
-char	*build_path(char **argv);
+char	*build_path(char **argv, int *flag);
 void	change_pwd(t_info *info, char *new_path);
 void	change_old_pwd(t_info *info, char *old_path);
 int		cd(t_info *info);
@@ -111,5 +111,7 @@ void	ft_sort_matrix(char **arr, int len);
 void	sort_and_print(char **envp, int fd);
 void	ft_put_envp_with_qou_fd(char *arr, int fd);
 char	**ft_dup_matrix(char **arr);
+void	if_not_changed(t_info *info, char *new_path, char *old_path, int flag);
+void	if_dir_changed(t_info *info, char *new_path, char *old_path, int flag);
 
 #endif

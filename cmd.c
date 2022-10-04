@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:24:50 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/04 17:24:02 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,11 @@ void	exec_cmd(char *str, t_info *info)
 		if (!iofd(str, i, info) || !func(info, i, str))
 			return ;
 		if (info->cnt == 1 && isbuiltin(info))
+		{
+			free2d(info->argv);
+			returning(info);
 			return ;
+		}
 		else
 			process(info);
 		free2d(info->argv);
