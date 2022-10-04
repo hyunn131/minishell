@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 18:49:14 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 21:16:13 by docho            ###   ########.fr       */
+/*   Created: 2022/10/04 16:25:58 by junhkim           #+#    #+#             */
+/*   Updated: 2022/10/04 16:25:59 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,21 @@ char	*joinpath(char *s1, char *s2)
 	str[s1len + s2len + 1] = '\0';
 	free(s2);
 	return (str);
+}
+
+int	e_wait(t_info *info)
+{
+	int		status;
+	pid_t	w_pid;
+
+	w_pid = waitpid(info->pid, &status, 0);
+	if (w_pid == -1)
+		terminate(0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		return (128 + WTERMSIG(status));
+	}
+	return (0);
 }

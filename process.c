@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 14:54:58 by docho             #+#    #+#             */
-/*   Updated: 2022/10/04 14:38:38 by junhkim          ###   ########.fr       */
+/*   Created: 2022/10/04 16:25:43 by junhkim           #+#    #+#             */
+/*   Updated: 2022/10/04 16:25:43 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,21 +106,4 @@ void	process(t_info *info)
 			e_close(info->inputfd);
 		info->inputfd = info->fd[0];
 	}
-}
-
-int	e_wait(t_info *info)
-{
-	int		status;
-	pid_t	w_pid;
-
-	w_pid = waitpid(info->pid, &status, 0);
-	if (w_pid == -1)
-		terminate(0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
-	{
-		return (128 + WTERMSIG(status));
-	}
-	return (0);
 }

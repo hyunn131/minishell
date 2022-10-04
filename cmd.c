@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 15:14:45 by docho             #+#    #+#             */
-/*   Updated: 2022/10/04 14:40:36 by junhkim          ###   ########.fr       */
+/*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
+/*   Updated: 2022/10/04 16:24:50 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,12 +137,7 @@ void	exec_cmd(char *str, t_info *info)
 		if (info->cnt == 1 && isbuiltin(info))
 			return ;
 		else
-		{
-			printf("argv---------------------\n");
-			for (int i = 0; info->argv[i]; ++i)
-				printf("argv[%d]: %s\n", i, info->argv[i]);
 			process(info);
-		}
 		free2d(info->argv);
 	}
 	returning(info);

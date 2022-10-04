@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:55:26 by docho             #+#    #+#             */
-/*   Updated: 2022/10/03 21:11:40 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/04 16:07:30 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,9 @@ char	*ft_getenv(char *str, t_info *info);
 void	echoctl_flag_off(void);
 void	echoctl_flag_on(void);
 void	sig_handler(int sig);
+void	ft_sort_matrix(char **arr, int len);
+void	sort_and_print(char **envp, int fd);
+void	ft_put_envp_with_qou_fd(char *arr, int fd);
+char	**ft_dup_matrix(char **arr);
 
 #endif
