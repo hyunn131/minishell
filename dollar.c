@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:07 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:25:08 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/05 15:50:24 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	dollar(char **pbuffer, t_info *info)
 			{
 				flag[1] = 1;
 				start = i;
-				while (!ft_strchr("><| \"\'", (*pbuffer)[++i]))
+				while (!ft_strchr("><| :\"\'", (*pbuffer)[++i]))
 					;
 				new_buffer(pbuffer, start, i, info);
 				break ;

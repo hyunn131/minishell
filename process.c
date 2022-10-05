@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:43 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:49:18 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/05 15:41:24 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,14 @@ void	in_child_do_cmd(t_info *info)
 	if (!isbuiltin(info))
 	{
 		path = ft_getenv("PATH", info);
-		if (!path)
-			terminate(0);
-		ss = ft_split(path, ':');
-		if (!ss)
-			terminate(0);
-		connectpath(&info->argv[0], ss);
-		free2d(ss);
+		if (path)
+		{
+			ss = ft_split(path, ':');
+			if (!ss)
+				terminate(0);
+			connectpath(&info->argv[0], ss);
+			free2d(ss);
+		}
 		if (execve(info->argv[0], info->argv, info->envp) == -1)
 			cmd_err(info->argv[0], info);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:50 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:25:51 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/05 15:22:53 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ void	counting2(char *buffer, int *pi)
 	if (buffer[i] == '\"' || buffer[i] == '\'')
 	{
 		c = buffer[i];
-		while (buffer[++i] != c)
-			;
+		i++;
+		while (buffer[i] != c && buffer[i])
+			i++;
 	}
-	*pi = i;
+	if (buffer[i])
+		*pi = i;
 }
 
 void	counting(char *buffer, int *cnt)
