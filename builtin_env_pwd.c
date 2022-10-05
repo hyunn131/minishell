@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_pwd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:23:56 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/05 16:35:50 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 07:48:59 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ int	env(t_info *info)
 		ft_putstr_fd("' : Permission Denied\n", 2);
 		return (1);
 	}
-	i = 0;
-	while (info->envp[i])
+	i = -1;
+	while (info->envp[++i])
 	{
+		if (!ft_strchr(info->envp[i], '='))
+			continue ;
 		ft_putstr_fd(info->envp[i], info->fd[1]);
 		write(info->fd[1], "\n", 1);
-		i++;
 	}
 	return (0);
 }
