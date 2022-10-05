@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:30 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 03:28:05 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 08:01:59 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ bool	append(char *filename, int *fd)
 	return (true);
 }
 
+void	here_doc2(char *str, char *limiter, int *tmp, int *fd)
+{
+	free(str);
+	free(limiter);
+	e_close(tmp[1]);
+	*fd = tmp[0];
+}
+
 bool	here_doc(char *limiter, int *fd)
 {
 	int		tmp[2];
@@ -75,9 +83,6 @@ bool	here_doc(char *limiter, int *fd)
 		ft_putendl_fd(str, tmp[1]);
 		free(str);
 	}
-	free(str);
-	e_close(tmp[1]);
-	*fd = tmp[0];
-	free(limiter);
+	here_doc2(str, limiter, tmp, fd);
 	return (flag);
 }

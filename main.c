@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:38:11 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 08:41:39 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ void	sig_handler(int sig)
 	pid = waitpid(-1, 0, WNOHANG);
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
-		rl_redisplay();
+		if (pid == -1)
+			rl_redisplay();
 	}
 	if (sig == SIGQUIT)
 	{
