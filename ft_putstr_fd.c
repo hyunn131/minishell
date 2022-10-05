@@ -6,12 +6,11 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 04:34:28 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 08:04:18 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	counting4(char *s, int j, int lim)
 {
@@ -33,6 +32,18 @@ void	counting4(char *s, int j, int lim)
 	}
 }
 
+void	restore(char *s, unsigned int start, size_t len, size_t slen)
+{
+	size_t	j;
+
+	j = start;
+	while (j < start + len && j < slen)
+	{
+		if (!s[j] && j != slen)
+			s[j] = '\'';
+		j++;
+	}
+}
 
 char	*ft_substr2(char *s, unsigned int start, size_t len)
 {
@@ -53,11 +64,12 @@ char	*ft_substr2(char *s, unsigned int start, size_t len)
 		terminate(0);
 	while (j < start + len && j < slen)
 	{
-		//counting4(s, j, start + len);
-		if ((s[j] != '\'' && s[j] != '\"'))
+		counting4(s, j, start + len);
+		if ((s[j]))
 			sub[i++] = s[j];
 		j++;
 	}
+	restore(s, start, len, slen);
 	return (sub);
 }
 
