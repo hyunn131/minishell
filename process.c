@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:43 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/05 15:41:24 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 00:48:32 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,6 @@ void	in_child_do_cmd(t_info *info)
 			cmd_err(info->argv[0], info);
 	}
 	exit(info->exit_n);
-}
-
-void	sig_handler2(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_replace_line("", 1);
-		printf(">");
-	}
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_replace_line("", 1);
-		printf(">");
-	}
 }
 
 void	process(t_info *info)

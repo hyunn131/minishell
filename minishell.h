@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 17:59:33 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 04:31:08 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ void	e_close(int fd);
 void	e_pipe(int *fd);
 pid_t	e_fork(void);
 bool	ft_strcmp(char *s1, char *s2);
-size_t	ft_strlen(const char *s);
-void	*ft_calloc(size_t count, size_t size);
 char	*joinpath(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
 void	process(t_info *info);
 int		e_wait(t_info *info);
 bool	input(char *filename, int *fd);
@@ -57,19 +54,14 @@ bool	output(char *filename, int *fd);
 bool	append(char *filename, int *fd);
 bool	here_doc(char *limiter, int *fd);
 bool	isbuiltin(t_info *info);
-void	ft_putstr_fd(char *s, int fd);
-char	*ft_strchr(const char *s, int c);
 void	splits(char *buffer, t_info *info);
-void	*ft_memmove(void *dst, const void *src, size_t len);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_substr2(char const *s, unsigned int start, size_t len);
+char	*ft_substr2(char *s, unsigned int start, size_t len);
 char	*ft_strjoin2(char const *s1, char const *s2);
-void	*ft_memset(void *b, int c, size_t len);
 void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(char *str, t_info *info);
 void	syntex_err(char *str);
 void	returning(t_info *info);
-bool	func(t_info *info, int i, char *str);
+bool	func(t_info *info);
 void	cmd_err(char *cmd, t_info *info);
 void	free_argv(char **argv);
 void	print_echo_char(char *argv, int fd);
@@ -113,5 +105,8 @@ void	ft_put_envp_with_qou_fd(char *arr, int fd);
 char	**ft_dup_matrix(char **arr);
 void	if_not_changed(t_info *info, char *new_path, char *old_path, int flag);
 void	if_dir_changed(t_info *info, char *new_path, char *old_path, int flag);
+bool	line_check(char **s, t_info *info);
+void	counting2(char *buffer, int *pi);
+void	pipecount(char *str, t_info *info);
 
 #endif

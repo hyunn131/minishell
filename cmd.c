@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 17:24:02 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 03:40:19 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	pipecount(char *str, t_info *info)
 
 	flag[0] = 0;
 	flag[1] = 0;
-	info->lens = ft_calloc(ft_strlen(str) + 1, sizeof(int));
+	info->lens = ft_calloc(ft_strlen(str) + 2, sizeof(int));
 	if (!(info->lens))
 		terminate(0);
 	j = 0;
@@ -126,13 +126,10 @@ void	exec_cmd(char *str, t_info *info)
 {
 	int		i;
 
-	if (!*str)
-		return ;
-	pipecount(str, info);
 	i = 0;
 	while (++i <= info->cnt)
 	{
-		if (!iofd(str, i, info) || !func(info, i, str))
+		if (!iofd(str, i, info) || !func(info))
 			return ;
 		if (info->cnt == 1 && isbuiltin(info))
 		{

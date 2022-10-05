@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:14 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:25:15 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 03:28:03 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	syntex_err(char *str)
 		ft_putstr_fd("<<", 2);
 	else if (!ft_strncmp(str, "<", 1))
 		ft_putstr_fd("<", 2);
+	else if (!ft_strncmp(str, "||", 2))
+		ft_putstr_fd("|", 2);
 	else if (!ft_strncmp(str, "|", 1))
 		ft_putstr_fd("|", 2);
 	else if (!ft_strncmp(str, "\0", 1))

@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:07 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/05 15:50:24 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 04:16:16 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,45 @@ void	new_buffer(char **pbuffer, int start, int i, t_info *info)
 
 void	init_(int *flag, int *i)
 {
-	flag[0] = 0;
-	flag[1] = 0;
+	*flag = 0;
 	*i = -1;
+}
+
+void	counting3(char *buffer, int *pi)
+{
+	int		i;
+	char	c;
+
+	i = *pi;
+	if (buffer[i] == '\'')
+	{
+		c = buffer[i];
+		i++;
+		while (buffer[i] != c && buffer[i])
+			i++;
+	}
+	if (buffer[i])
+		*pi = i;
+	else
+		*pi += 1;
 }
 
 void	dollar(char **pbuffer, t_info *info)
 {
-	int		flag[2];
+	int		flag;
 	int		i;
 	int		start;
 
 	while (1)
 	{
-		init_(flag, &i);
+		init_(&flag, &i);
 		while ((*pbuffer)[++i])
 		{
 			if ((*pbuffer)[i] == '\'')
-				flag[0] ^= 1;
-			if ((*pbuffer)[i] == '$' && !flag[0])
+				counting3(*pbuffer, &i);
+			if ((*pbuffer)[i] == '$')
 			{
-				flag[1] = 1;
+				flag = 1;
 				start = i;
 				while (!ft_strchr("><| :\"\'", (*pbuffer)[++i]))
 					;
@@ -70,7 +88,7 @@ void	dollar(char **pbuffer, t_info *info)
 				break ;
 			}
 		}
-		if (flag[1])
+		if (flag)
 			continue ;
 		break ;
 	}

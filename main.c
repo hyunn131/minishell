@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:47:27 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 03:26:52 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
+		rl_on_new_line();
 		rl_replace_line("", 1);
-		if (pid == -1)
-			printf("minishell$ ");
+		rl_redisplay();
 	}
 	if (sig == SIGQUIT)
 	{
@@ -121,14 +121,15 @@ int	main(int argc, char **argv, char **envp)
 		echoctl_flag_off();
 		s = readline("minishell$ ");
 		if (!s)
+			break ;
+		if (*s && line_check(&s, &info))
 		{
-			ft_putstr_fd("\033[A\033[11Cexit\n", 1);
-			exit (0);
+			add_history(s);
+			exec_cmd(s, &info);
 		}
-		add_history(s);
-		exec_cmd(s, &info);
 		free(s);
 	}
+	ft_putstr_fd("\033[A\033[11Cexit\n", 1);
 	free2d(info.envp);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:30 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:25:31 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 03:28:05 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,29 @@ bool	here_doc(char *limiter, int *fd)
 {
 	int		tmp[2];
 	char	*str;
+	bool	flag;
 
 	if (!limiter)
 		return (false);
 	if (*fd != 0)
 		e_close(*fd);
 	e_pipe(tmp);
+	flag = true;
 	while (1)
 	{
-		str = readline(">");
-		if (!str)
-			continue ;
-		if (ft_strcmp(str, limiter))
+		str = readline("> ");
+		if (!str || ft_strcmp(str, limiter))
+		{
+			if (!str)
+				flag = false;
 			break ;
-		else
-			ft_putendl_fd(str, tmp[1]);
+		}
+		ft_putendl_fd(str, tmp[1]);
 		free(str);
 	}
 	free(str);
 	e_close(tmp[1]);
 	*fd = tmp[0];
 	free(limiter);
-	return (true);
+	return (flag);
 }
