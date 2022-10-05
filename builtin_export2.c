@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:25 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/05 16:12:37 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/05 16:29:24 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_envp_copy(char **envp, int index)
 	int		len;
 
 	len = ft_strlen(envp[index]);
-	tmp = (char *)malloc(sizeof(char) * (len + 1));
+	tmp = (char *)ft_calloc(sizeof(char), (len + 1));
 	if (!tmp)
 		return (0);
 	ft_strlcpy(tmp, envp[index], len + 1);

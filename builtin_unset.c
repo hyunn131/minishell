@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:41 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:24:42 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/05 16:35:57 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**remove_one_var(char **envp, int index)
 
 	i = -1;
 	count = ft_count_matrix(envp);
-	new = (char **)malloc(sizeof(char *) * count);
+	new = (char **)ft_calloc(sizeof(char *), count);
 	if (!new)
 		terminate(0);
 	j = 0;

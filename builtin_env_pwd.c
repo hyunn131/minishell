@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_pwd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:23:56 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:49:53 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/05 16:35:50 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	env(t_info *info)
 	while (info->envp[i])
 	{
 		ft_putstr_fd(info->envp[i], info->fd[1]);
-		write(1, "\n", info->fd[1]);
+		write(info->fd[1], "\n", 1);
 		i++;
 	}
 	return (0);
@@ -77,7 +77,7 @@ int	pwd(t_info *info)
 
 	buf = working_directory();
 	ft_putstr_fd(buf, info->fd[1]);
-	write(1, "\n", 1);
+	write(info->fd[1], "\n", 1);
 	free(buf);
 	return (0);
 }
