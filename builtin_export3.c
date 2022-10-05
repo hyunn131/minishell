@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:08 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/05 16:19:44 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 07:58:01 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	sort_and_print(char **envp, int fd)
 	while (arr[++i])
 	{
 		ft_putstr_fd("declare -x ", fd);
-		ft_put_envp_with_qou_fd(arr[i], fd);
+		if (ft_strchr(arr[i], '='))
+			ft_put_envp_with_qou_fd(arr[i], fd);
+		else
+			ft_putendl_fd(arr[i], fd);
 	}
 	free2d(arr);
 }

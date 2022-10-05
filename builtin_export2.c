@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:25 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/05 16:29:24 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 08:35:56 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,15 @@ int	ft_strlen_key(char *key_and_val)
 	return (i);
 }
 
-int	ft_strncmp_equalsign(char *s1, char *s2, int len)
+int	ft_strncmp_equ(char *s1, char *s2, int len)
 {
-	if ((!ft_strncmp(s1, s2, len)) && (s1[len - 1] == s2[len - 1])
-		&& (s1[len - 1] == '='))
-		return (0);
+	if (!ft_strncmp(s1, s2, len - 1))
+	{
+		if (s1[len - 1] == s2[len - 1] && s1[len - 1] == '=')
+			return (0);
+		if ((s1[len - 1] == '=' && s2[len - 1] == '\0')
+			|| (s1[len - 1] == '\0' && s2[len - 1] == '='))
+			return (0);
+	}
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 03:26:52 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 08:38:11 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	init_info(t_info *info, char **envp)
 		if (!(info->envp)[i])
 			terminate(0);
 	}
-	info->envp = unset_var("OLDPWD", info->envp);
+	info->envp = change_env("OLDPWD", info->envp);
 	info->exit_n = 0;
 }
 

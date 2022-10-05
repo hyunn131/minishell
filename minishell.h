@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 04:31:08 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 07:57:46 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,13 @@ int		unset(t_info *info);
 void	exit_error_message(char *message, char *non_numeric);
 int		is_all_digit(char *str);
 int		f_exit(char **argv);
-int		ft_strncmp_equalsign(char *s1, char *s2, int len);
 int		ft_count_matrix(char **envp);
 char	*ft_envp_copy(char **envp, int index);
 char	**new_added_envp(char *key_and_val, char **envp, int count);
 int		ft_strlen_key(char *key_and_val);
 char	**change_env(char *key_and_val, char **envp);
 int		ft_count_matrix(char **envp);
-int		ft_strncmp_equalsign(char *s1, char *s2, int len);
+int		ft_strncmp_equ(char *s1, char *s2, int len);
 void	print_export_invalid(char *varname);
 int		check_export_valid(char *argv);
 int		export(t_info *info);

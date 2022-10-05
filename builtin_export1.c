@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:15 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:24:17 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 08:35:53 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**new_added_envp(char *key_and_val, char **envp, int count)
 	return (tmp);
 }
 
-char	**change_env(char *key_and_val, char **envp)
+char	**change_env(char *key_val, char **envp)
 {
 	char	**new_envp;
 	char	*tmp;
@@ -43,13 +43,13 @@ char	**change_env(char *key_and_val, char **envp)
 	int		i;
 	int		envp_count;
 
-	len = ft_strlen_key(key_and_val) + 1;
+	len = ft_strlen_key(key_val) + 1;
 	i = -1;
 	while (envp[++i])
 	{
-		if (ft_strncmp_equalsign(envp[i], key_and_val, len))
+		if (ft_strncmp_equ(envp[i], key_val, len))
 			continue ;
-		tmp = ft_strdup(key_and_val);
+		tmp = ft_strdup(key_val);
 		if (!tmp)
 			terminate(0);
 		free(envp[i]);
@@ -57,7 +57,7 @@ char	**change_env(char *key_and_val, char **envp)
 		return (envp);
 	}
 	envp_count = ft_count_matrix(envp);
-	new_envp = new_added_envp(key_and_val, envp, envp_count);
+	new_envp = new_added_envp(key_val, envp, envp_count);
 	if (!new_envp)
 		terminate(0);
 	free_argv(envp);
@@ -101,8 +101,6 @@ int	export(t_info *info)
 			invalid_flag = 1;
 			continue ;
 		}
-		if (!ft_strchr(info->argv[i], '='))
-			continue ;
 		info->envp = change_env(info->argv[i], info->envp);
 	}
 	if (invalid_flag)
