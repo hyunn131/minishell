@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:08:11 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 18:53:06 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ bool	iofd(char *str, int i, t_info *info)
 	if (!make_exec(str, i, info, buffer))
 	{
 		free(buffer);
-		returning(info);
 		return (false);
 	}
 	dollar(&buffer, info);
@@ -129,12 +128,13 @@ void	exec_cmd(char *str, t_info *info)
 	i = 0;
 	pipecount(str, info);
 	info->pids = ft_calloc(info->cnt, sizeof(pid_t));
+	info->inputfd = 0;
 	if (!(info->pids))
 		terminate(0);
 	while (++i <= info->cnt)
 	{
 		if (!iofd(str, i, info) || !func(info))
-			return ;
+			continue ;
 		if (info->cnt == 1 && isbuiltin(info))
 		{
 			free2d(info->argv);

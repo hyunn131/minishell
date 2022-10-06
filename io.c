@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:30 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:00:41 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 18:55:34 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ bool	input(char *filename, int *fd)
 {
 	if (!filename)
 		return (false);
-	if (*fd != 0)
-		e_close(*fd);
+	if (*fd != 0 && *fd > 0)
+		e_close(*fd); 
 	*fd = open(filename, O_RDONLY);
 	if (*fd < 0)
 	{
 		perror("bash: ");
+		free(filename);
 		return (false);
 	}
 	free(filename);
@@ -32,12 +33,13 @@ bool	output(char *filename, int *fd)
 {
 	if (!filename)
 		return (false);
-	if (*fd != 1)
+	if (*fd != 1  && *fd > 0)
 		e_close(*fd);
 	*fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
 	{
 		perror("bash: ");
+		free(filename);
 		return (false);
 	}
 	free(filename);
@@ -48,12 +50,13 @@ bool	append(char *filename, int *fd)
 {
 	if (!filename)
 		return (false);
-	if (*fd != 1)
+	if (*fd != 1 && *fd > 0)
 		e_close(*fd);
 	*fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd < 0)
 	{
 		perror("bash: ");
+		free(filename);
 		return (false);
 	}
 	free(filename);
@@ -76,7 +79,7 @@ bool	here_doc(char *limiter, int *fd)
 
 	if (!limiter)
 		return (false);
-	if (*fd != 0)
+	if (*fd != 0  && *fd > 0)
 		e_close(*fd);
 	e_pipe(tmp);
 	flag = true;

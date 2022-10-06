@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:43 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:03:15 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 18:52:57 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,19 @@ void	process(t_info *info, int i)
 	if (info->pids[i] == 0)
 	{
 		echoctl_flag_on();
-		if (info->fd[0] != 0)
+		if (info->fd[0] != 0 && info->fd[0] > 0)
 			e_close(info->fd[0]);
-		dup2(info->inputfd, 0);
-		dup2(info->fd[1], 1);
+		if (info->inputfd > 0)
+			dup2(info->inputfd, 0);
+		if (info->fd[1] > 0)
+			dup2(info->fd[1], 1);
 		in_child_do_cmd(info);
 	}
 	else
 	{
-		if (info->fd[1] != 1)
+		if (info->fd[1] != 1 && info->fd[1] > 0)
 			e_close(info->fd[1]);
-		if (info->inputfd != 0)
+		if (info->inputfd != 0 && info->inputfd > 0)
 			e_close(info->inputfd);
 		info->inputfd = info->fd[0];
 	}

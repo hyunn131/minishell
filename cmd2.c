@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:08:39 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 18:10:24 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	returning(t_info *info)
 {
 	free(info->lens);
 	free(info->pids);
-	if (info->fd[1] != 1)
+	if (info->fd[1] != 1 && info->fd[1] > 0)
 		close(info->fd[1]);
-	if (info->fd[0] != 0)
+	if (info->fd[0] != 0 && info->fd[1] > 0)
 		close(info->fd[0]);
 }
 
@@ -26,7 +26,6 @@ bool	func(t_info *info)
 {
 	if (!*(info->argv))
 	{
-		returning(info);
 		free2d(info->argv);
 		return (false);
 	}

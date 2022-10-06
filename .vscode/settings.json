@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "history.h": "c"
+        "history.h": "c",
+        "__config": "c",
+        "__tuple": "c",
+        "bit": "c",
+        "istream": "c",
+        "locale": "c",
+        "unordered_map": "c"
     }
 }
