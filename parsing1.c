@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 23:25:15 by docho             #+#    #+#             */
-/*   Updated: 2022/10/06 17:15:41 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:28:48 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,54 +39,21 @@ bool	new_line(char **s)
 	return (true);
 }
 
-int	syntex_tok(char *str)
+static void	pipe_check_2(bool *flag, int *start, int i)
 {
-	if (!ft_strncmp(str, ">>", 2))
-		return (2);
-	else if (!ft_strncmp(str, ">", 1))
-		return (1);
-	else if (!ft_strncmp(str, "<<", 2))
-		return (2);
-	else if (!ft_strncmp(str, "<", 1))
-		return (1);
-	// else if (!ft_strncmp(str, "||", 2))
-	// 	return (2);
-	else if (!ft_strncmp(str, "|", 1))
-		return (1);
-	else if (!ft_strncmp(str, "", 1))
-		return (1);
-	return (0);
+	flag[2] = false;
+	flag[3] = true;
+	*start = i + 1;
 }
 
-bool	syntex_false(char *str)
+static void	pipe_check_1(char **s, int i, bool *flag)
 {
-	syntex_err(str);
-	return (false);
-}
-
-bool	redi_check(char *s, int start, int end)
-{
-	int		i;
-	bool	flag;
-
-	if (start == end)
-		return (true);
-	i = start;
-	flag = false;
-	while (i <= end)
-	{
-		if (syntex_tok(&s[i]))
-		{
-			if (flag)
-				return (syntex_false(&s[i]));
-			flag = true;
-			i += syntex_tok(&s[i]) - 1;
-		}
-		else if (s[i] != ' ')
-			flag = false;
-		i++;
-	}
-	return (true);
+	if ((*s)[i] == '\'')
+		flag[0] ^= 1;
+	else if ((*s)[i] == '\"')
+		flag[1] ^= 1;
+	if ((*s)[i] > 32 && (*s)[i] < 127)
+		flag[2] = true;
 }
 
 bool	pipe_check(char **s)
@@ -100,26 +67,17 @@ bool	pipe_check(char **s)
 	start = 0;
 	while ((*s)[++i])
 	{
-		if ((*s)[i] == '\'')
-			flag[0] ^= 1;
-		else if ((*s)[i] == '\"')
-			flag[1] ^= 1;
-		if (((*s)[i] > 32 && (*s)[i] < 127) && (*s)[i] != '|')
-			flag[2] = true;
+		pipe_check_1(s, i, flag);
 		if ((*s)[i] == '|' && !flag[0] && !flag[1])
 		{
 			if (!flag[2])
 				return (syntex_false(&(*s)[i]));
 			if (!redi_check(*s, start, i))
 				return (false);
-			flag[2] = false;
-			flag[3] = true;
-			start = i + 1;
+			pipe_check_2(flag, &start, i);
 		}
 	}
-	if (!redi_check(*s, start, i))
-		return (false);
-	if (flag[3] && !flag[2] && !new_line(s))
+	if (!redi_check(*s, start, i) || (flag[3] && !flag[2] && !new_line(s)))
 		return (false);
 	return (true);
 }

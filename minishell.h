@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:06:09 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:29:50 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,8 @@ bool	pipe_check(char **s);
 void	counting2(char *buffer, int *pi);
 void	pipecount(char *str, t_info *info);
 bool	space_check(char *s);
+void	sig_init(void);
+bool	redi_check(char *s, int start, int end);
+bool	syntex_false(char *str);
 
 #endif

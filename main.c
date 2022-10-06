@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 16:58:49 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:17:24 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || !argv)
 		return (1);
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
+	sig_init();
 	init_info(&info, envp);
 	while (1)
 	{
