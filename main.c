@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:48:26 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 10:56:16 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int	main(int argc, char **argv, char **envp)
 		s = readline("minishell$ ");
 		if (!s)
 			break ;
-		if (*s && line_check(&s, &info))
+		if (*s && space_check(s) && line_check(&s, &info))
 		{
 			add_history(s);
 			exec_cmd(s, &info);
