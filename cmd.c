@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 10:57:39 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 03:40:19 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,6 @@ void	exec_cmd(char *str, t_info *info)
 		else
 			process(info);
 		free2d(info->argv);
-		for (int i = 0; info->argv[i]; ++i)
-			printf("%s\n", info->argv[i]);
 	}
 	returning(info);
 	info->exit_n = e_wait(info);

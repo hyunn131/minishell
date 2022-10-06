@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:23:32 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 09:31:45 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 08:19:40 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	if_dir_changed(t_info *info, char *new_path, char *old_path, int flag)
 {
 	if (flag)
 		free(new_path);
-	new_path = workindirectory();
+	new_path = working_directory();
 	change_pwd(info, new_path);
 	change_old_pwd(info, old_path);
 }

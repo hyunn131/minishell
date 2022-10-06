@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 10:51:46 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 08:41:38 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ void	if_dir_changed(t_info *info, char *new_path, char *old_path, int flag);
 bool	line_check(char **s, t_info *info);
 void	counting2(char *buffer, int *pi);
 void	pipecount(char *str, t_info *info);
-bool	space_check(char *s);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:15 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:35:53 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 14:53:55 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ char	**new_added_envp(char *key_and_val, char **envp, int count)
 
 	tmp = (char **)malloc(sizeof(char *) * (count + 2));
 	if (!tmp)
-		return (0);
+		terminate(0);
 	i = 0;
 	while (i < count)
 	{
 		tmp[i] = ft_envp_copy(envp, i);
 		if (!tmp[i])
-			return (0);
+			terminate(0);
 		i++;
 	}
 	tmp[i] = ft_strdup(key_and_val);
 	if (!tmp[i])
-		return (0);
+		terminate(0);
 	tmp[i + 1] = NULL;
 	return (tmp);
 }
@@ -47,8 +47,10 @@ char	**change_env(char *key_val, char **envp)
 	i = -1;
 	while (envp[++i])
 	{
-		if (ft_strncmp_equ(envp[i], key_val, len))
+		if (ft_strncmp_equ(envp[i], key_val, len) == 1)
 			continue ;
+		if (ft_strncmp_equ(envp[i], key_val, len) == -1)
+			return (envp);
 		tmp = ft_strdup(key_val);
 		if (!tmp)
 			terminate(0);
@@ -58,8 +60,6 @@ char	**change_env(char *key_val, char **envp)
 	}
 	envp_count = ft_count_matrix(envp);
 	new_envp = new_added_envp(key_val, envp, envp_count);
-	if (!new_envp)
-		terminate(0);
 	free_argv(envp);
 	return (new_envp);
 }
