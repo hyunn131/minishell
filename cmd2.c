@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 18:10:24 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 18:57:51 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,10 @@ void	cmd_err(char *cmd, t_info *info)
 		ft_putendl_fd(": No such file or directory", 2);
 	info->exit_n = 127;
 	exit(127);
+}
+
+void	sig_init(void)
+{
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 }
