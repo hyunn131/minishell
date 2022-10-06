@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:30 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:01:59 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:00:41 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ bool	input(char *filename, int *fd)
 		e_close(*fd);
 	*fd = open(filename, O_RDONLY);
 	if (*fd < 0)
-		terminate(0);
+	{
+		perror("bash: ");
+		return (false);
+	}
 	free(filename);
 	return (true);
 }
@@ -33,7 +36,10 @@ bool	output(char *filename, int *fd)
 		e_close(*fd);
 	*fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
-		terminate(0);
+	{
+		perror("bash: ");
+		return (false);
+	}
 	free(filename);
 	return (true);
 }
@@ -46,7 +52,10 @@ bool	append(char *filename, int *fd)
 		e_close(*fd);
 	*fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd < 0)
-		terminate(0);
+	{
+		perror("bash: ");
+		return (false);
+	}
 	free(filename);
 	return (true);
 }

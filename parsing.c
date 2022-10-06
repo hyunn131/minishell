@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 23:25:15 by docho             #+#    #+#             */
-/*   Updated: 2022/10/06 15:13:05 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 16:37:34 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ bool	new_line(char **s)
 		ft_putendl_fd("bash: syntax error: unexpected end of file", 2);
 		return (false);
 	}
-	tmp = ft_strjoin(*s, new);
+	tmp = ft_strjoin(" ", new);
 	if (!tmp)
 		terminate(0);
-	free(*s);
 	free(new);
-	*s = tmp;
+	new = ft_strjoin(*s, tmp);
+	free(*s);
+	free(tmp);
+	*s = new;
 	return (true);
 }
 
@@ -47,68 +49,77 @@ int	syntex_tok(char *str)
 		return (2);
 	else if (!ft_strncmp(str, "<", 1))
 		return (1);
-	else if (!ft_strncmp(str, "||", 2))
-		return (2);
+	// else if (!ft_strncmp(str, "||", 2))
+	// 	return (2);
 	else if (!ft_strncmp(str, "|", 1))
+		return (1);
+	else if (!ft_strncmp(str, "", 1))
 		return (1);
 	return (0);
 }
 
-bool	redi_check(char *s, int i, t_info *info, bool *f_pipe)
+bool	syntex_false(char *str)
 {
-	int		j;
-	bool	f_redi;
+	syntex_err(str);
+	return (false);
+}
 
-	j = info->lens[i - 1];
-	f_redi = false;
-	while (++j <= info->lens[i] && s[j])
+bool	redi_check(char *s, int start, int end)
+{
+	int		i;
+	bool	flag;
+
+	if (start == end)
+		return (true);
+	i = start;
+	flag = false;
+	while (i <= end)
 	{
-		counting2(s, &j);
-		if (syntex_tok(&s[j]))
+		if (syntex_tok(&s[i]))
 		{
-			if (f_redi)
-			{
-				syntex_err(&s[j]);
-				return (false);
-			}
-			f_redi = true;
-			j += syntex_tok(&s[j]);
+			if (flag)
+				return (syntex_false(&s[i]));
+			flag = true;
+			i += syntex_tok(&s[i]) - 1;
 		}
-		else if (s[j] != ' ')
-		{
-			*f_pipe = false;
-			f_redi = false;
-		}
+		else if (s[i] != ' ')
+			flag = false;
+		i++;
 	}
 	return (true);
 }
 
-bool	rt_f(char *s)
-{
-	add_history(s);
-	return (false);
-}
-
-bool	line_check(char **s, t_info *info)
+bool	pipe_check(char **s)
 {
 	int		i;
-	bool	f_pipe;
+	bool	flag[4];
+	int		start;
 
-	pipecount(*s, info);
-	i = 0;
-	while (++i <= info->cnt)
+	ft_memset(flag, 0, sizeof(flag));
+	i = -1;
+	start = 0;
+	while ((*s)[++i])
 	{
-		f_pipe = true;
-		if (!redi_check(*s, i, info, &f_pipe))
-			return (rt_f(*s));
-		if (f_pipe && i != info->cnt)
+		if ((*s)[i] == '\'')
+			flag[0] ^= 1;
+		else if ((*s)[i] == '\"')
+			flag[1] ^= 1;
+		if ((*s)[i] > 32 && (*s)[i] < 127)
+			flag[2] = true;
+		if ((*s)[i] == '|' && !flag[0] && !flag[1])
 		{
-			syntex_err(&(*s)[info->lens[i]]);
-			return (rt_f(*s));
+			if (!flag[2])
+				return (syntex_false(&(*s)[i]));
+			if (!redi_check(*s, start, i))
+				return (false);
+			flag[2] = false;
+			flag[3] = true;
+			start = i + 1;
 		}
 	}
-	free(info->lens);
-	if (f_pipe && !new_line(s))
-		return (rt_f(*s));
+	if (!redi_check(*s, start, i))
+		return (false);
+	if (flag[3] && !flag[2] && !new_line(s))
+		return (false);
 	return (true);
 }

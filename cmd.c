@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 15:02:30 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:08:11 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,7 @@ void	exec_cmd(char *str, t_info *info)
 			return ;
 		}
 		else
-			process(info, i);
-		for(int j = 0; info->argv[j]; ++j)
-			printf("#%d argv: %s\n", i, info->argv[j]);
+			process(info, i - 1);
 		free2d(info->argv);
 	}
 	returning(info);

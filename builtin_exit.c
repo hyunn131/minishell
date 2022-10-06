@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:06 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 14:53:57 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 17:04:54 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_all_digit(char *str)
 	return (1);
 }
 
-int	f_exit(char **argv)
+int	f_exit(char **argv, t_info *info)
 {
 	int	i;
 	int	count;
@@ -47,7 +47,8 @@ int	f_exit(char **argv)
 		i = ft_atoi(argv[1]);
 	else
 		i = 0;
-	printf("exit\n");
+	if (info->cnt == 1)
+		printf("exit\n");
 	exit(i);
 }
 

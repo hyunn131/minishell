@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 14:59:46 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:08:39 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	returning(t_info *info)
 {
 	free(info->lens);
+	free(info->pids);
 	if (info->fd[1] != 1)
 		close(info->fd[1]);
 	if (info->fd[0] != 0)
@@ -42,17 +43,4 @@ void	cmd_err(char *cmd, t_info *info)
 		ft_putendl_fd(": No such file or directory", 2);
 	info->exit_n = 127;
 	exit(127);
-}
-
-bool	space_check(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] == ' ')
-		i++;
-	if (!s[i])
-		return (false);
-	else
-		return (true);
 }

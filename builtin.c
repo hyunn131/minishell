@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:23:12 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 17:56:04 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 17:06:06 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	isbuiltin(t_info *info)
 	else if (ft_strcmp(info->argv[0], "env"))
 		info->exit_n = env(info);
 	else if (ft_strcmp(info->argv[0], "exit"))
-		info->exit_n = f_exit(info->argv);
+		info->exit_n = f_exit(info->argv, info);
 	else
 		return (false);
 	return (true);

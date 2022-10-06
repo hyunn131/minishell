@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:14 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 14:55:27 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:07:16 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	terminate(char *str)
 	if (str)
 		printf("%s", str);
 	else if (errno != 0)
-		strerror(errno);
+		perror("bash: ");
 	exit(1);
 }
 

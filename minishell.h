@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 14:47:47 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:06:09 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	**unset_var(char *varname, char **envp);
 int		unset(t_info *info);
 void	exit_error_message(char *message, char *non_numeric);
 int		is_all_digit(char *str);
-int		f_exit(char **argv);
+int		f_exit(char **argv, t_info *info);
 int		ft_count_matrix(char **envp);
 char	*ft_envp_copy(char **envp, int index);
 char	**new_added_envp(char *key_and_val, char **envp, int count);
@@ -104,7 +104,7 @@ void	ft_put_envp_with_qou_fd(char *arr, int fd);
 char	**ft_dup_matrix(char **arr);
 void	if_not_changed(t_info *info, char *new_path, char *old_path, int flag);
 void	if_dir_changed(t_info *info, char *new_path, char *old_path, int flag);
-bool	line_check(char **s, t_info *info);
+bool	pipe_check(char **s);
 void	counting2(char *buffer, int *pi);
 void	pipecount(char *str, t_info *info);
 bool	space_check(char *s);
