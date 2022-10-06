@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:14 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:07:16 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 17:17:42 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	syntex_err(char *str)
 	else if (!ft_strncmp(str, "<", 1))
 		ft_putstr_fd("<", 2);
 	else if (!ft_strncmp(str, "||", 2))
-		ft_putstr_fd("|", 2);
+		ft_putstr_fd("||", 2);
 	else if (!ft_strncmp(str, "|", 1))
 		ft_putstr_fd("|", 2);
 	else if (!ft_strncmp(str, "\0", 1))
