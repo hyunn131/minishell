@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:58 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/04 16:25:59 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 14:54:44 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,20 @@ int	e_wait(t_info *info)
 {
 	int		status;
 	pid_t	w_pid;
+	int		i;
+	int		res;
 
-	w_pid = waitpid(info->pid, &status, 0);
-	if (w_pid == -1)
-		terminate(0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status))
+	i = -1;
+	while (++i < info->cnt)
 	{
-		return (128 + WTERMSIG(status));
+		res = 0;
+		w_pid = waitpid(info->pids[i], &status, 0);
+		if (w_pid == -1)
+			terminate(0);
+		if (WIFEXITED(status))
+				res = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			res = 128 + WTERMSIG(status);
 	}
-	return (0);
+	return (res);
 }

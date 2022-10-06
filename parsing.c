@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 23:25:15 by docho             #+#    #+#             */
-/*   Updated: 2022/10/06 03:27:47 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 14:59:23 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,12 @@ bool	new_line(char **s)
 		ft_putendl_fd("bash: syntax error: unexpected end of file", 2);
 		return (false);
 	}
-	tmp = ft_strjoin(" ", new);
+	tmp = ft_strjoin(*s, new);
 	if (!tmp)
 		terminate(0);
-	free(new);
-	new = ft_strjoin(*s, tmp);
-	if (!new)
-		terminate(0);
 	free(*s);
-	free(tmp);
-	*s = new;
+	free(new);
+	*s = tmp;
 	return (true);
 }
 
@@ -111,6 +107,7 @@ bool	line_check(char **s, t_info *info)
 			return (rt_f(*s));
 		}
 	}
+	free(info->lens);
 	if (f_pipe && !new_line(s))
 		return (rt_f(*s));
 	return (true);

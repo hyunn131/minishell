@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:43 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:37:55 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/06 14:47:51 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	in_child_do_cmd(t_info *info)
 	exit(info->exit_n);
 }
 
-void	process(t_info *info)
+void	process(t_info *info, int i)
 {
-	info->pid = e_fork();
-	if (info->pid == 0)
+	info->pids[i] = e_fork();
+	if (info->pids[i] == 0)
 	{
 		echoctl_flag_on();
 		if (info->fd[0] != 0)

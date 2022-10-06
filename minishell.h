@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:41:38 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 14:47:47 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_info{
 	int		cnt;
 	int		fd[2];
 	int		inputfd;
-	int		pid;
+	int		*pids;
 	int		exit_n;
 }				t_info;
 
@@ -47,7 +47,7 @@ void	e_pipe(int *fd);
 pid_t	e_fork(void);
 bool	ft_strcmp(char *s1, char *s2);
 char	*joinpath(char *s1, char *s2);
-void	process(t_info *info);
+void	process(t_info *info, int i);
 int		e_wait(t_info *info);
 bool	input(char *filename, int *fd);
 bool	output(char *filename, int *fd);
@@ -107,5 +107,6 @@ void	if_dir_changed(t_info *info, char *new_path, char *old_path, int flag);
 bool	line_check(char **s, t_info *info);
 void	counting2(char *buffer, int *pi);
 void	pipecount(char *str, t_info *info);
+bool	space_check(char *s);
 
 #endif
