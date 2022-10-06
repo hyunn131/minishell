@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:06 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 07:57:58 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 14:53:57 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	is_all_digit(char *str)
 {
+	while (*str == ' ')
+		str++;
+	if (*str == '-' || *str == '+')
+		str++;
 	while (*str)
 	{
 		if (!ft_isdigit(*str))

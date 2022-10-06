@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:25 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:35:56 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/06 15:05:07 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ int	ft_strncmp_equ(char *s1, char *s2, int len)
 {
 	if (!ft_strncmp(s1, s2, len - 1))
 	{
-		if (s1[len - 1] == s2[len - 1] && s1[len - 1] == '=')
+		if ((s1[len - 1] == s2[len - 1])
+			&& (s1[len - 1] == '=' || s1[len - 1] == '\0'))
 			return (0);
-		if ((s1[len - 1] == '=' && s2[len - 1] == '\0')
-			|| (s1[len - 1] == '\0' && s2[len - 1] == '='))
+		if (s1[len - 1] == '\0' && s2[len - 1] == '=')
 			return (0);
+		if (s1[len - 1] == '=' && s2[len - 1] == '\0')
+			return (-1);
 	}
 	return (1);
 }
