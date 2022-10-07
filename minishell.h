@@ -6,7 +6,7 @@
 /*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:29:50 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/07 10:53:09 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	matrix_free(char **matrix, int index);
 char	**remove_one_var(char **envp, int index);
 char	**unset_var(char *varname, char **envp);
 int		unset(t_info *info);
-void	exit_error_message(char *message, char *non_numeric);
+void	exit_error_message(char *message, char *non_numeric, t_info *info);
 int		is_all_digit(char *str);
 int		f_exit(char **argv, t_info *info);
 int		ft_count_matrix(char **envp);

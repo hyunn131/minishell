@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:06 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 17:04:54 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 10:54:57 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ int	f_exit(char **argv, t_info *info)
 	count = ft_count_matrix(argv);
 	if (count >= 2 && !is_all_digit(argv[1]))
 	{
-		exit_error_message("numeric argument required", argv[1]);
+		exit_error_message("numeric argument required", argv[1], info);
 		exit(255);
 	}
 	else if (count >= 3)
 	{
-		exit_error_message("too many arguments", 0);
+		exit_error_message("too many arguments", 0, info);
 		return (1);
 	}
 	else if (count == 2)
@@ -48,13 +48,15 @@ int	f_exit(char **argv, t_info *info)
 	else
 		i = 0;
 	if (info->cnt == 1)
-		printf("exit\n");
+		ft_putstr_fd("exit\n", 2);
 	exit(i);
 }
 
-void	exit_error_message(char *message, char *non_numeric)
+void	exit_error_message(char *message, char *non_numeric, t_info *info)
 {
-	ft_putstr_fd("exit\nbash: exit: ", 2);
+	if (info->cnt == 1)
+		ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("bash: exit: ", 2);
 	if (non_numeric)
 	{
 		ft_putstr_fd(non_numeric, 2);
