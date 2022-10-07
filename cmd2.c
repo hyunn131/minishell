@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 14:58:20 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:20:50 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,19 @@ void	returning(t_info *info)
 	free(info->argvs);
 }
 
+static int	ft_strcmp_path(char *s1)
+{
+	if (!ft_strncmp(s1, "./", 2) || !ft_strncmp(s1, "../", 3)
+		|| !ft_strncmp(s1, "/", 1))
+		return (1);
+	return (0);
+}
 
 void	cmd_err(char *cmd, t_info *info)
 {
 	ft_putstr_fd("bash: ", 2);
 	ft_putstr_fd(cmd, 2);
-	if (ft_getenv("PATH", info))
+	if (ft_getenv("PATH", info) && !ft_strcmp_path(cmd))
 		ft_putendl_fd(": command not found", 2);
 	else
 		ft_putendl_fd(": No such file or directory", 2);

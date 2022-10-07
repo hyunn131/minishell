@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 15:02:21 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:20:48 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	dollar(char **pbuffer, t_info *info);
 void	exec_cmd(t_info *info);
 void	syntex_err(char *str);
 void	returning(t_info *info);
-bool	func(t_info *info);
 void	cmd_err(char *cmd, t_info *info);
 void	free_argv(char **argv);
 void	print_echo_char(char *argv, int fd);

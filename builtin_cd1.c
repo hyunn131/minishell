@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:23:32 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 08:19:40 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 13:36:15 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ void	if_not_changed(t_info *info, char *new_path, char *old_path, int flag)
 	free(old_path);
 	if (flag)
 		free(new_path);
-	ft_putstr_fd("bash: cd: No such file or directory: ", 2);
+	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(info->argv[1], 2);
+	ft_putstr_fd(": No such file or directory", 2);
 	ft_putstr_fd("\n", 2);
 }
 
