@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:43 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 13:28:17 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:12:04 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ void	in_child_do_cmd(t_info *info)
 
 void	process(t_info *info, int i)
 {
+	// printf("%d, %d, %d\n", info->fd[0], info->fd[1], info->inputfd);
+	// for (int i = 0; info->argv[i]; ++i)
+	// 	printf("%d: %s\n",i, info->argv[i]);
 	info->pids[i] = e_fork();
 	if (info->pids[i] == 0)
 	{
@@ -91,6 +94,6 @@ void	process(t_info *info, int i)
 			e_close(info->fd[1]);
 		if (info->inputfd != 0 && info->inputfd > 0)
 			e_close(info->inputfd);
-		info->inputfd = info->fd[0];
+		info->ifd[i + 1] = info->fd[0];
 	}
 }

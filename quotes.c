@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:50 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 07:53:41 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 13:49:33 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	counting(char *buffer, int *cnt)
 	}
 }
 
-void	fills(char *buffer, t_info *info)
+void	fills(char *buffer, t_info *info, int idx)
 {
 	int		i;
 	int		start;
@@ -67,7 +67,7 @@ void	fills(char *buffer, t_info *info)
 		if (buffer[i] == ' ')
 		{
 			if (start != -1)
-				info->argv[num++] = ft_substr2(buffer, start, i - start);
+				info->argvs[idx][num++] = ft_substr2(buffer, start, i - start);
 			start = -1;
 		}
 		else
@@ -78,17 +78,17 @@ void	fills(char *buffer, t_info *info)
 		}
 	}
 	if (start != -1)
-		info->argv[num++] = ft_substr2(buffer, start, i - start);
+		info->argvs[idx][num++] = ft_substr2(buffer, start, i - start);
 }
 
-void	splits(char *buffer, t_info *info)
+void	splits(char *buffer, t_info *info, int i)
 {
 	int	cnt;
 
 	cnt = 0;
 	counting(buffer, &cnt);
-	info->argv = ft_calloc(cnt + 1, sizeof(char *));
-	if (!info->argv)
+	info->argvs[i] = ft_calloc(cnt + 1, sizeof(char *));
+	if (!info->argvs[i])
 		terminate(0);
-	fills(buffer, info);
+	fills(buffer, info, i);
 }

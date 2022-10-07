@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 10:53:09 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/07 15:02:21 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@ typedef struct s_info{
 	int		*lens;
 	int		cnt;
 	int		fd[2];
+	int		*fd0;
+	int		*fd1;
+	int		*ifd;
+	char	***argvs;
 	int		inputfd;
 	int		*pids;
+	int		*flag;
 	int		exit_n;
 }				t_info;
 
@@ -54,11 +59,11 @@ bool	output(char *filename, int *fd);
 bool	append(char *filename, int *fd);
 bool	here_doc(char *limiter, int *fd);
 bool	isbuiltin(t_info *info);
-void	splits(char *buffer, t_info *info);
+void	splits(char *buffer, t_info *info, int i);
 char	*ft_substr2(char *s, unsigned int start, size_t len);
 char	*ft_strjoin2(char const *s1, char const *s2);
 void	dollar(char **pbuffer, t_info *info);
-void	exec_cmd(char *str, t_info *info);
+void	exec_cmd(t_info *info);
 void	syntex_err(char *str);
 void	returning(t_info *info);
 bool	func(t_info *info);
@@ -111,5 +116,7 @@ bool	space_check(char *s);
 void	sig_init(void);
 bool	redi_check(char *s, int start, int end);
 bool	syntex_false(char *str);
+bool	before_cmd(char *str, t_info *info);
+void	iofd(char *str, t_info *info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 13:27:04 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:12:37 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,55 +96,113 @@ void	pipecount(char *str, t_info *info)
 	info->cnt = j;
 }
 
-bool	iofd(char *str, int i, t_info *info)
+void	iofd(char *str, t_info *info)
 {
 	char	*buffer;
+	int		i;
+	int		fd[2];
+	bool	flag;
 
-	if (i == info->cnt)
+	i = -1;
+	while (++i < info->cnt)
 	{
-		info->fd[1] = 1;
-		info->fd[0] = 0;
-	}
-	else
-		e_pipe(info->fd);
-	buffer = ft_calloc(info->lens[i] - info->lens[i - 1], sizeof(char));
-	if (!buffer)
-		terminate(0);
-	if (!make_exec(str, i, info, buffer))
-	{
+		flag = true;
+		if (i == info->cnt - 1)
+		{
+			info->fd1[i] = 1;
+			info->fd0[i] = 0;
+		}
+		else
+		{
+			e_pipe(fd);
+			info->fd1[i] = fd[1];
+			info->fd0[i] = fd[0];
+		}
+		buffer = ft_calloc(info->lens[i + 1] - info->lens[i], sizeof(char));
+		if (!buffer)
+			terminate(0);
+		if (!make_exec(str, i + 1, info, buffer))
+		{
+			printf("%d\n", i);
+			free(buffer);
+			info->argvs[i] = 0;
+			flag = false;
+			continue;
+		}
+		dollar(&buffer, info);
+		splits(buffer, info, i);
 		free(buffer);
-		return (false);
+		info->flag[i] = flag;
 	}
-	dollar(&buffer, info);
-	splits(buffer, info);
-	free(buffer);
-	return (true);
 }
-
-void	exec_cmd(char *str, t_info *info)
+void	printinfo(t_info *info)
+{
+	printf("cnt: %d\n", info->cnt);
+	printf("-----fd0---------\n");
+	for (int i = 0; i < info->cnt; ++i)
+	{
+		printf("fd0[%d]: %d\n", i, info->fd0[i]);
+	}
+	printf("-----fd1---------\n");
+	for (int i = 0; i < info->cnt; ++i)
+	{
+		printf("fd1[%d]: %d\n", i, info->fd1[i]);
+	}
+	printf("-----ifd---------\n");
+	for (int i = 0; i < info->cnt; ++i)
+	{
+		printf("ifd[%d]: %d\n", i, info->ifd[i]);
+	}
+	printf("-----argvs---------\n");
+	for (int i = 0; i < info->cnt; ++i)
+	{
+		printf("argv[%d]\n", i);
+		if (info->argvs[i])
+		{
+			for (int j = 0; info->argvs[i][j]; ++j)
+				printf("argv[%d]: %s\n", j, info->argvs[i][j]);
+			printf("\n");
+		}
+	}
+}
+bool	before_cmd(char *str, t_info *info)
 {
 	int		i;
 
 	i = 0;
 	pipecount(str, info);
 	info->pids = ft_calloc(info->cnt, sizeof(pid_t));
-	info->inputfd = 0;
-	if (!(info->pids))
+	info->fd0 = ft_calloc(info->cnt, sizeof(int));
+	info->fd1 = ft_calloc(info->cnt, sizeof(int));
+	info->ifd = ft_calloc(info->cnt, sizeof(int));
+	info->argvs = ft_calloc(info->cnt + 1, sizeof(char **));
+	info->flag = ft_calloc(info->cnt, sizeof(int));
+	if (!(info->pids) || !(info->fd0) || !(info->fd1) || \
+			!(info->ifd) || !(info->argvs) || !(info->flag))
 		terminate(0);
+	info->inputfd = 0;
+	iofd(str, info);
+	return (true);
+}
+
+void	exec_cmd(t_info *info)
+{
+	int		i;
+
+	i = 0;
 	while (++i <= info->cnt)
 	{
-		if (!iofd(str, i, info))
+		if (!info->flag[i - 1])
 			continue ;
+		info->fd[0] = info->fd0[i - 1];
+		info->fd[1] = info->fd1[i - 1];
+		info->inputfd = info->ifd[i - 1];
+		info->argv = info->argvs[i - 1];
 		if (info->cnt == 1 && isbuiltin(info))
-		{
-			free2d(info->argv);
-			returning(info);
-			return ;
-		}
+			;
 		else
 			process(info, i - 1);
-		free2d(info->argv);
 	}
-	returning(info);
 	info->exit_n = e_wait(info);
+	returning(info);
 }

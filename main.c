@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:22:23 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 18:57:53 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:16:38 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ void	echoctl_flag_on(void)
 	}
 }
 
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*s;
@@ -122,10 +124,11 @@ int	main(int argc, char **argv, char **envp)
 		s = readline("minishell$ ");
 		if (!s)
 			break ;
-		if (*s && pipe_check(&s))
+		if (*s && pipe_check(&s) && before_cmd(s, &info))
 		{
+
 			add_history(s);
-			exec_cmd(s, &info);
+			exec_cmd(&info);
 		}
 		if (*s)
 			add_history(s);

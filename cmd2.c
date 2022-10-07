@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 18:57:51 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 14:58:20 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 void	returning(t_info *info)
 {
+	int	i;
+	
 	free(info->lens);
 	free(info->pids);
+	free(info->flag);
 	if (info->fd[1] != 1 && info->fd[1] > 0)
 		close(info->fd[1]);
 	if (info->fd[0] != 0 && info->fd[1] > 0)
 		close(info->fd[0]);
+	free(info->fd0);
+	free(info->fd1);
+	free(info->ifd);
+	i = -1;
+	while (++i < info->cnt)
+		free2d(info->argvs[i]);
+	free(info->argvs);
 }
 
-bool	func(t_info *info)
-{
-	if (!*(info->argv))
-	{
-		free2d(info->argv);
-		return (false);
-	}
-	return (true);
-}
 
 void	cmd_err(char *cmd, t_info *info)
 {
