@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:30 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 10:55:43 by junhkim          ###   ########.fr       */
+/*   Updated: 2022/10/07 12:47:26 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ bool	input(char *filename, int *fd)
 	*fd = open(filename, O_RDONLY);
 	if (*fd < 0)
 	{
-		perror("bash: ");
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(filename, 2);
+		perror(" ");
 		free(filename);
 		return (false);
 	}
@@ -38,7 +40,9 @@ bool	output(char *filename, int *fd)
 	*fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
 	{
-		perror("bash: ");
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(filename, 2);
+		perror(" ");
 		free(filename);
 		return (false);
 	}
@@ -55,7 +59,9 @@ bool	append(char *filename, int *fd)
 	*fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd < 0)
 	{
-		perror("bash: ");
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(filename, 2);
+		perror(" ");
 		free(filename);
 		return (false);
 	}
