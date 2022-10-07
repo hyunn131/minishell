@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 18:57:51 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 13:58:55 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,19 @@ void	returning(t_info *info)
 		close(info->fd[0]);
 }
 
-bool	func(t_info *info)
+static int	ft_strcmp_path(char *s1)
 {
-	if (!*(info->argv))
-	{
-		free2d(info->argv);
-		return (false);
-	}
-	return (true);
+	if (!ft_strncmp(s1, "./", 2) || !ft_strncmp(s1, "../", 3)
+		|| !ft_strncmp(s1, "/", 1))
+		return (1);
+	return (0);
 }
 
 void	cmd_err(char *cmd, t_info *info)
 {
 	ft_putstr_fd("bash: ", 2);
 	ft_putstr_fd(cmd, 2);
-	if (ft_getenv("PATH", info))
+	if (ft_getenv("PATH", info) && !ft_strcmp_path(cmd))
 		ft_putendl_fd(": command not found", 2);
 	else
 		ft_putendl_fd(": No such file or directory", 2);
