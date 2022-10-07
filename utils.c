@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:58 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 18:58:14 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 13:24:21 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ int	e_wait(t_info *info)
 	while (++i < info->cnt)
 	{
 		res = 0;
+		if (info->pids[i] == 0)
+			continue ;
 		w_pid = waitpid(info->pids[i], &status, 0);
 		if (WIFEXITED(status))
 				res = WEXITSTATUS(status);

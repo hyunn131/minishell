@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/06 18:53:06 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 13:27:04 by docho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	exec_cmd(char *str, t_info *info)
 		terminate(0);
 	while (++i <= info->cnt)
 	{
-		if (!iofd(str, i, info) || !func(info))
+		if (!iofd(str, i, info))
 			continue ;
 		if (info->cnt == 1 && isbuiltin(info))
 		{
