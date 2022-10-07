@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:25:58 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 15:20:23 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:28:02 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,6 @@ int	e_wait(t_info *info)
 		if (info->pids[i] == 0)
 			continue ;
 		w_pid = waitpid(info->pids[i], &status, 0);
-		// printf("pid: %d\n", getpid());
-		// printf("cpid: %d\n", info->pids[i]);
-		// printf("wpid: %d\n", w_pid);
 		if (WIFEXITED(status))
 				res = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))

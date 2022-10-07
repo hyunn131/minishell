@@ -6,7 +6,7 @@
 /*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:59 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 15:20:50 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:28:22 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	returning(t_info *info)
 {
 	int	i;
-	
+
 	free(info->lens);
 	free(info->pids);
 	free(info->flag);

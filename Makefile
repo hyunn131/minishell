@@ -6,7 +6,7 @@
 #    By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 16:14:31 by docho             #+#    #+#              #
-#    Updated: 2022/10/06 17:29:03 by junhkim          ###   ########.fr        #
+#    Updated: 2022/10/07 15:31:49 by junhkim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS = cmd.c process.c builtin.c error.c io.c cmd2.c \
 	utils.c ft_putstr_fd.c quotes.c dollar.c main.c \
 	builtin_cd1.c builtin_echo.c builtin_env_pwd.c builtin_exit.c \
 	builtin_export1.c builtin_export2.c builtin_unset.c \
-	builtin_export3.c builtin_cd2.c parsing1.c parsing2.c
+	builtin_export3.c builtin_cd2.c parsing1.c parsing2.c \
+	cmd3.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

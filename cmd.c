@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:24:49 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 15:12:37 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 16:04:15 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,75 +96,6 @@ void	pipecount(char *str, t_info *info)
 	info->cnt = j;
 }
 
-void	iofd(char *str, t_info *info)
-{
-	char	*buffer;
-	int		i;
-	int		fd[2];
-	bool	flag;
-
-	i = -1;
-	while (++i < info->cnt)
-	{
-		flag = true;
-		if (i == info->cnt - 1)
-		{
-			info->fd1[i] = 1;
-			info->fd0[i] = 0;
-		}
-		else
-		{
-			e_pipe(fd);
-			info->fd1[i] = fd[1];
-			info->fd0[i] = fd[0];
-		}
-		buffer = ft_calloc(info->lens[i + 1] - info->lens[i], sizeof(char));
-		if (!buffer)
-			terminate(0);
-		if (!make_exec(str, i + 1, info, buffer))
-		{
-			printf("%d\n", i);
-			free(buffer);
-			info->argvs[i] = 0;
-			flag = false;
-			continue;
-		}
-		dollar(&buffer, info);
-		splits(buffer, info, i);
-		free(buffer);
-		info->flag[i] = flag;
-	}
-}
-void	printinfo(t_info *info)
-{
-	printf("cnt: %d\n", info->cnt);
-	printf("-----fd0---------\n");
-	for (int i = 0; i < info->cnt; ++i)
-	{
-		printf("fd0[%d]: %d\n", i, info->fd0[i]);
-	}
-	printf("-----fd1---------\n");
-	for (int i = 0; i < info->cnt; ++i)
-	{
-		printf("fd1[%d]: %d\n", i, info->fd1[i]);
-	}
-	printf("-----ifd---------\n");
-	for (int i = 0; i < info->cnt; ++i)
-	{
-		printf("ifd[%d]: %d\n", i, info->ifd[i]);
-	}
-	printf("-----argvs---------\n");
-	for (int i = 0; i < info->cnt; ++i)
-	{
-		printf("argv[%d]\n", i);
-		if (info->argvs[i])
-		{
-			for (int j = 0; info->argvs[i][j]; ++j)
-				printf("argv[%d]: %s\n", j, info->argvs[i][j]);
-			printf("\n");
-		}
-	}
-}
 bool	before_cmd(char *str, t_info *info)
 {
 	int		i;
@@ -192,7 +123,7 @@ void	exec_cmd(t_info *info)
 	i = 0;
 	while (++i <= info->cnt)
 	{
-		if (!info->flag[i - 1])
+		if (!info->flag[i - 1] || !*(info->argvs[i - 1]))
 			continue ;
 		info->fd[0] = info->fd0[i - 1];
 		info->fd[1] = info->fd1[i - 1];

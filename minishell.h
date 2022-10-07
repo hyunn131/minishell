@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: docho <docho@student.42.fr>                +#+  +:+       +#+        */
+/*   By: junhkim <junhkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 17:59:31 by junhkim           #+#    #+#             */
-/*   Updated: 2022/10/07 15:20:48 by docho            ###   ########.fr       */
+/*   Updated: 2022/10/07 15:30:30 by junhkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,7 @@ bool	redi_check(char *s, int start, int end);
 bool	syntex_false(char *str);
 bool	before_cmd(char *str, t_info *info);
 void	iofd(char *str, t_info *info);
+char	*make_filename(char *str, int *i, t_info *info);
+bool	make_exec(char *str, int idx, t_info *info, char *buffer);
 
 #endif
